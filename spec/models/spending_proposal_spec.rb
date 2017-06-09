@@ -3,64 +3,64 @@ require 'rails_helper'
 describe SpendingProposal do
   let(:spending_proposal) { build(:spending_proposal) }
 
-  it "should be valid" do
+  it "is valid" do
     expect(spending_proposal).to be_valid
   end
 
-  it "should not be valid without an author" do
+  it "is not valid without an author" do
     spending_proposal.author = nil
-    expect(spending_proposal).to_not be_valid
+    expect(spending_proposal).not_to be_valid
   end
 
   describe "#title" do
-    it "should not be valid without a title" do
+    it "is not valid without a title" do
       spending_proposal.title = nil
-      expect(spending_proposal).to_not be_valid
+      expect(spending_proposal).not_to be_valid
     end
 
-    it "should not be valid when very short" do
+    it "is not valid when very short" do
       spending_proposal.title = "abc"
-      expect(spending_proposal).to_not be_valid
+      expect(spending_proposal).not_to be_valid
     end
 
-    it "should not be valid when very long" do
+    it "is not valid when very long" do
       spending_proposal.title = "a" * 81
-      expect(spending_proposal).to_not be_valid
+      expect(spending_proposal).not_to be_valid
     end
   end
 
   describe "#description" do
-    it "should be sanitized" do
+    it "is sanitized" do
       spending_proposal.description = "<script>alert('danger');</script>"
       spending_proposal.valid?
       expect(spending_proposal.description).to eq("alert('danger');")
     end
 
-    it "should not be valid when very long" do
+    it "is not valid when very long" do
       spending_proposal.description = "a" * 6001
-      expect(spending_proposal).to_not be_valid
+      expect(spending_proposal).not_to be_valid
     end
   end
 
   describe "#feasible_explanation" do
-    it "should be valid if valuation not finished" do
+    it "is valid if valuation not finished" do
       spending_proposal.feasible_explanation = ""
       spending_proposal.valuation_finished = false
       expect(spending_proposal).to be_valid
     end
 
-    it "should be valid if valuation finished and feasible" do
+    it "is valid if valuation finished and feasible" do
       spending_proposal.feasible_explanation = ""
       spending_proposal.feasible = true
       spending_proposal.valuation_finished = true
       expect(spending_proposal).to be_valid
     end
 
-    it "should not be valid if valuation finished and unfeasible" do
+    it "is not valid if valuation finished and unfeasible" do
       spending_proposal.feasible_explanation = ""
       spending_proposal.feasible = false
       spending_proposal.valuation_finished = true
-      expect(spending_proposal).to_not be_valid
+      expect(spending_proposal).not_to be_valid
     end
   end
 
@@ -122,7 +122,7 @@ describe SpendingProposal do
       let(:spending_proposal) { create(:spending_proposal) }
 
       it "sets the time when the unfeasible email was sent" do
-        expect(spending_proposal.unfeasible_email_sent_at).to_not be
+        expect(spending_proposal.unfeasible_email_sent_at).not_to be
         spending_proposal.send_unfeasible_email
         expect(spending_proposal.unfeasible_email_sent_at).to be
       end
@@ -147,11 +147,11 @@ describe SpendingProposal do
   end
 
   describe "by_admin" do
-    it "should return spending proposals assigned to specific administrator" do
+    it "returns spending proposals assigned to specific administrator" do
       spending_proposal1 = create(:spending_proposal, administrator_id: 33)
       spending_proposal2 = create(:spending_proposal)
 
-      by_admin = SpendingProposal.by_admin(33)
+      by_admin = described_class.by_admin(33)
 
       expect(by_admin.size).to eq(1)
       expect(by_admin.first).to eq(spending_proposal1)
@@ -159,7 +159,7 @@ describe SpendingProposal do
   end
 
   describe "by_valuator" do
-    it "should return spending proposals assigned to specific valuator" do
+    it "returns spending proposals assigned to specific valuator" do
       spending_proposal1 = create(:spending_proposal)
       spending_proposal2 = create(:spending_proposal)
       spending_proposal3 = create(:spending_proposal)
@@ -171,7 +171,7 @@ describe SpendingProposal do
       spending_proposal2.valuators << valuator2
       spending_proposal3.valuators << [valuator1, valuator2]
 
-      by_valuator = SpendingProposal.by_valuator(valuator1.id)
+      by_valuator = described_class.by_valuator(valuator1.id)
 
       expect(by_valuator.size).to eq(2)
       expect(by_valuator.sort).to eq([spending_proposal1, spending_proposal3].sort)
@@ -180,11 +180,11 @@ describe SpendingProposal do
 
   describe "scopes" do
     describe "valuation_open" do
-      it "should return all spending proposals with false valuation_finished" do
+      it "returns all spending proposals with false valuation_finished" do
         spending_proposal1 = create(:spending_proposal, valuation_finished: true)
         spending_proposal2 = create(:spending_proposal)
 
-        valuation_open = SpendingProposal.valuation_open
+        valuation_open = described_class.valuation_open
 
         expect(valuation_open.size).to eq(1)
         expect(valuation_open.first).to eq(spending_proposal2)
@@ -192,12 +192,12 @@ describe SpendingProposal do
     end
 
     describe "without_admin" do
-      it "should return all open spending proposals without assigned admin" do
+      it "returns all open spending proposals without assigned admin" do
         spending_proposal1 = create(:spending_proposal, valuation_finished: true)
         spending_proposal2 = create(:spending_proposal, administrator: create(:administrator))
         spending_proposal3 = create(:spending_proposal)
 
-        without_admin = SpendingProposal.without_admin
+        without_admin = described_class.without_admin
 
         expect(without_admin.size).to eq(1)
         expect(without_admin.first).to eq(spending_proposal3)
@@ -205,13 +205,13 @@ describe SpendingProposal do
     end
 
     describe "managed" do
-      it "should return all open spending proposals with assigned admin but without assigned valuators" do
+      it "returns all open spending proposals with assigned admin but without assigned valuators" do
         spending_proposal1 = create(:spending_proposal, administrator: create(:administrator))
         spending_proposal2 = create(:spending_proposal, administrator: create(:administrator), valuation_finished: true)
         spending_proposal3 = create(:spending_proposal, administrator: create(:administrator))
         spending_proposal1.valuators << create(:valuator)
 
-        managed = SpendingProposal.managed
+        managed = described_class.managed
 
         expect(managed.size).to eq(1)
         expect(managed.first).to eq(spending_proposal3)
@@ -219,7 +219,7 @@ describe SpendingProposal do
     end
 
     describe "valuating" do
-      it "should return all spending proposals with assigned valuator but valuation not finished" do
+      it "returns all spending proposals with assigned valuator but valuation not finished" do
         spending_proposal1 = create(:spending_proposal)
         spending_proposal2 = create(:spending_proposal)
         spending_proposal3 = create(:spending_proposal, valuation_finished: true)
@@ -227,7 +227,7 @@ describe SpendingProposal do
         spending_proposal2.valuators << create(:valuator)
         spending_proposal3.valuators << create(:valuator)
 
-        valuating = SpendingProposal.valuating
+        valuating = described_class.valuating
 
         expect(valuating.size).to eq(1)
         expect(valuating.first).to eq(spending_proposal2)
@@ -235,7 +235,7 @@ describe SpendingProposal do
     end
 
     describe "valuation_finished" do
-      it "should return all spending proposals with valuation finished" do
+      it "returns all spending proposals with valuation finished" do
         spending_proposal1 = create(:spending_proposal)
         spending_proposal2 = create(:spending_proposal)
         spending_proposal3 = create(:spending_proposal, valuation_finished: true)
@@ -243,7 +243,7 @@ describe SpendingProposal do
         spending_proposal2.valuators << create(:valuator)
         spending_proposal3.valuators << create(:valuator)
 
-        valuation_finished = SpendingProposal.valuation_finished
+        valuation_finished = described_class.valuation_finished
 
         expect(valuation_finished.size).to eq(1)
         expect(valuation_finished.first).to eq(spending_proposal3)
@@ -251,30 +251,30 @@ describe SpendingProposal do
     end
 
     describe "feasible" do
-      it "should return all feasible spending proposals" do
+      it "returns all feasible spending proposals" do
         feasible_spending_proposal = create(:spending_proposal, feasible: true)
         create(:spending_proposal)
 
-        expect(SpendingProposal.feasible).to eq [feasible_spending_proposal]
+        expect(described_class.feasible).to eq [feasible_spending_proposal]
       end
     end
 
     describe "unfeasible" do
-      it "should return all unfeasible spending proposals" do
+      it "returns all unfeasible spending proposals" do
         unfeasible_spending_proposal = create(:spending_proposal, feasible: false)
         create(:spending_proposal, feasible: true)
 
-        expect(SpendingProposal.unfeasible).to eq [unfeasible_spending_proposal]
+        expect(described_class.unfeasible).to eq [unfeasible_spending_proposal]
       end
     end
 
     describe "not_unfeasible" do
-      it "should return all not unfeasible spending proposals" do
+      it "returns all not unfeasible spending proposals" do
         not_unfeasible_spending_proposal_1 = create(:spending_proposal, feasible: true)
         not_unfeasible_spending_proposal_2 = create(:spending_proposal)
         create(:spending_proposal, feasible: false)
 
-        not_unfeasibles = SpendingProposal.not_unfeasible
+        not_unfeasibles = described_class.not_unfeasible
 
         expect(not_unfeasibles.size).to eq(2)
         expect(not_unfeasibles.include?(not_unfeasible_spending_proposal_1)).to eq(true)
@@ -376,13 +376,13 @@ describe SpendingProposal do
   end
 
   describe "#with_supports" do
-    it "should return proposals with supports" do
+    it "returns proposals with supports" do
       sp1 = create(:spending_proposal)
       sp2 = create(:spending_proposal)
       create(:vote, votable: sp1)
 
-      expect(SpendingProposal.with_supports).to include(sp1)
-      expect(SpendingProposal.with_supports).to_not include(sp2)
+      expect(described_class.with_supports).to include(sp1)
+      expect(described_class.with_supports).not_to include(sp2)
     end
   end
 

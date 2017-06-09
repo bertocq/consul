@@ -4,18 +4,16 @@ class Admin::BudgetInvestmentsController < Admin::BaseController
 
   has_filters(%w{valuation_open without_admin managed valuating valuation_finished
                  valuation_finished_feasible selected all},
-              only: [:index, :toggle_selection])
+              only: %i[index toggle_selection])
 
   before_action :load_budget
-  before_action :load_investment, only: [:show, :edit, :update, :toggle_selection]
-  before_action :load_ballot, only: [:show, :index]
-  before_action :load_investments, only: [:index, :toggle_selection]
+  before_action :load_investment, only: %i[show edit update toggle_selection]
+  before_action :load_ballot, only: %i[show index]
+  before_action :load_investments, only: %i[index toggle_selection]
 
-  def index
-  end
+  def index; end
 
-  def show
-  end
+  def show; end
 
   def edit
     load_admins

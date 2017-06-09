@@ -1,7 +1,6 @@
 class Admin::NewslettersController < Admin::BaseController
 
-  def index
-  end
+  def index; end
 
   def users
     zip = NewsletterZip.new('emails')

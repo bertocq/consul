@@ -3,6 +3,7 @@ require 'cancan/matchers'
 
 describe "Abilities::Common" do
   subject(:ability) { Ability.new(user) }
+
   let(:geozone)     { create(:geozone)  }
 
   let(:user) { create(:user, geozone: geozone) }
@@ -54,61 +55,61 @@ describe "Abilities::Common" do
   let(:incoming_poll_question_from_other_geozone) { create(:poll_question, poll: incoming_poll_from_other_geozone) }
   let(:incoming_poll_question_from_all_geozones)  { create(:poll_question, poll: incoming_poll) }
 
-  it { should be_able_to(:index, Debate) }
-  it { should be_able_to(:show, debate)  }
-  it { should be_able_to(:vote, debate)  }
+  it { is_expected.to be_able_to(:index, Debate) }
+  it { is_expected.to be_able_to(:show, debate)  }
+  it { is_expected.to be_able_to(:vote, debate)  }
 
-  it { should be_able_to(:show, user) }
-  it { should be_able_to(:edit, user) }
+  it { is_expected.to be_able_to(:show, user) }
+  it { is_expected.to be_able_to(:edit, user) }
 
-  it { should be_able_to(:create, Comment) }
-  it { should be_able_to(:vote, Comment)   }
+  it { is_expected.to be_able_to(:create, Comment) }
+  it { is_expected.to be_able_to(:vote, Comment)   }
 
-  it { should     be_able_to(:index, Proposal) }
-  it { should     be_able_to(:show, proposal) }
-  it { should_not be_able_to(:vote, Proposal) }
-  it { should_not be_able_to(:vote_featured, Proposal) }
+  it { is_expected.to     be_able_to(:index, Proposal) }
+  it { is_expected.to     be_able_to(:show, proposal) }
+  it { is_expected.not_to be_able_to(:vote, Proposal) }
+  it { is_expected.not_to be_able_to(:vote_featured, Proposal) }
 
-  it { should     be_able_to(:index, SpendingProposal)   }
-  it { should_not be_able_to(:create, SpendingProposal)  }
-  it { should_not be_able_to(:destroy, SpendingProposal) }
+  it { is_expected.to     be_able_to(:index, SpendingProposal)   }
+  it { is_expected.not_to be_able_to(:create, SpendingProposal)  }
+  it { is_expected.not_to be_able_to(:destroy, SpendingProposal) }
 
-  it { should_not be_able_to(:comment_as_administrator, debate)   }
-  it { should_not be_able_to(:comment_as_moderator, debate)       }
-  it { should_not be_able_to(:comment_as_administrator, proposal) }
-  it { should_not be_able_to(:comment_as_moderator, proposal)     }
+  it { is_expected.not_to be_able_to(:comment_as_administrator, debate)   }
+  it { is_expected.not_to be_able_to(:comment_as_moderator, debate)       }
+  it { is_expected.not_to be_able_to(:comment_as_administrator, proposal) }
+  it { is_expected.not_to be_able_to(:comment_as_moderator, proposal)     }
 
-  it { should     be_able_to(:new,    DirectMessage) }
-  it { should_not be_able_to(:create, DirectMessage) }
-  it { should_not be_able_to(:show,   DirectMessage) }
+  it { is_expected.to     be_able_to(:new,    DirectMessage) }
+  it { is_expected.not_to be_able_to(:create, DirectMessage) }
+  it { is_expected.not_to be_able_to(:show,   DirectMessage) }
 
   describe 'flagging content' do
-    it { should be_able_to(:flag, debate)   }
-    it { should be_able_to(:unflag, debate) }
+    it { is_expected.to be_able_to(:flag, debate)   }
+    it { is_expected.to be_able_to(:unflag, debate) }
 
-    it { should be_able_to(:flag, comment)   }
-    it { should be_able_to(:unflag, comment) }
+    it { is_expected.to be_able_to(:flag, comment)   }
+    it { is_expected.to be_able_to(:unflag, comment) }
 
-    it { should be_able_to(:flag, proposal)   }
-    it { should be_able_to(:unflag, proposal) }
+    it { is_expected.to be_able_to(:flag, proposal)   }
+    it { is_expected.to be_able_to(:unflag, proposal) }
 
     describe "own content" do
-      it { should_not be_able_to(:flag, own_comment)   }
-      it { should_not be_able_to(:unflag, own_comment) }
+      it { is_expected.not_to be_able_to(:flag, own_comment)   }
+      it { is_expected.not_to be_able_to(:unflag, own_comment) }
 
-      it { should_not be_able_to(:flag, own_debate)   }
-      it { should_not be_able_to(:unflag, own_debate) }
+      it { is_expected.not_to be_able_to(:flag, own_debate)   }
+      it { is_expected.not_to be_able_to(:unflag, own_debate) }
 
-      it { should_not be_able_to(:flag, own_proposal)   }
-      it { should_not be_able_to(:unflag, own_proposal) }
+      it { is_expected.not_to be_able_to(:flag, own_proposal)   }
+      it { is_expected.not_to be_able_to(:unflag, own_proposal) }
     end
   end
 
   describe "other users" do
     let(:other_user) { create(:user) }
 
-    it { should     be_able_to(:show, other_user) }
-    it { should_not be_able_to(:edit, other_user) }
+    it { is_expected.to     be_able_to(:show, other_user) }
+    it { is_expected.not_to be_able_to(:edit, other_user) }
   end
 
   describe "editing debates" do
@@ -116,9 +117,9 @@ describe "Abilities::Common" do
 
     before { allow(own_debate_non_editable).to receive(:editable?).and_return(false) }
 
-    it { should     be_able_to(:edit, own_debate)              }
-    it { should_not be_able_to(:edit, debate)                  } # Not his
-    it { should_not be_able_to(:edit, own_debate_non_editable) }
+    it { is_expected.to     be_able_to(:edit, own_debate)              }
+    it { is_expected.not_to be_able_to(:edit, debate)                  } # Not his
+    it { is_expected.not_to be_able_to(:edit, own_debate_non_editable) }
   end
 
   describe "editing proposals" do
@@ -126,140 +127,142 @@ describe "Abilities::Common" do
 
     before { allow(own_proposal_non_editable).to receive(:editable?).and_return(false) }
 
-    it { should be_able_to(:edit, own_proposal)                  }
-    it { should_not be_able_to(:edit, proposal)                  } # Not his
-    it { should_not be_able_to(:edit, own_proposal_non_editable) }
+    it { is_expected.to be_able_to(:edit, own_proposal)                  }
+    it { is_expected.not_to be_able_to(:edit, proposal)                  } # Not his
+    it { is_expected.not_to be_able_to(:edit, own_proposal_non_editable) }
   end
 
   describe "when level 2 verified" do
     let(:own_spending_proposal) { create(:spending_proposal, author: user) }
 
     let(:own_direct_message) { create(:direct_message, sender: user) }
+
     before{ user.update(residence_verified_at: Time.current, confirmed_phone: "1") }
 
     describe "Proposal" do
-      it { should be_able_to(:vote, Proposal) }
-      it { should be_able_to(:vote_featured, Proposal) }
+      it { is_expected.to be_able_to(:vote, Proposal) }
+      it { is_expected.to be_able_to(:vote_featured, Proposal) }
     end
 
     describe "Spending Proposal" do
-      it { should be_able_to(:create, SpendingProposal)                }
-      it { should_not be_able_to(:destroy, create(:spending_proposal)) }
-      it { should_not be_able_to(:destroy, own_spending_proposal)      }
+      it { is_expected.to be_able_to(:create, SpendingProposal)                }
+      it { is_expected.not_to be_able_to(:destroy, create(:spending_proposal)) }
+      it { is_expected.not_to be_able_to(:destroy, own_spending_proposal)      }
     end
 
     describe "Direct Message" do
-      it { should     be_able_to(:new,    DirectMessage)           }
-      it { should     be_able_to(:create, DirectMessage)           }
-      it { should     be_able_to(:show,   own_direct_message)      }
-      it { should_not be_able_to(:show,   create(:direct_message)) }
+      it { is_expected.to     be_able_to(:new,    DirectMessage)           }
+      it { is_expected.to     be_able_to(:create, DirectMessage)           }
+      it { is_expected.to     be_able_to(:show,   own_direct_message)      }
+      it { is_expected.not_to be_able_to(:show,   create(:direct_message)) }
     end
 
     describe "Poll" do
-      it { should     be_able_to(:answer, current_poll)  }
-      it { should_not be_able_to(:answer, expired_poll)  }
-      it { should_not be_able_to(:answer, incoming_poll) }
+      it { is_expected.to     be_able_to(:answer, current_poll)  }
+      it { is_expected.not_to be_able_to(:answer, expired_poll)  }
+      it { is_expected.not_to be_able_to(:answer, incoming_poll) }
 
-      it { should     be_able_to(:answer, poll_question_from_own_geozone)   }
-      it { should     be_able_to(:answer, poll_question_from_all_geozones)  }
-      it { should_not be_able_to(:answer, poll_question_from_other_geozone) }
+      it { is_expected.to     be_able_to(:answer, poll_question_from_own_geozone)   }
+      it { is_expected.to     be_able_to(:answer, poll_question_from_all_geozones)  }
+      it { is_expected.not_to be_able_to(:answer, poll_question_from_other_geozone) }
 
-      it { should_not be_able_to(:answer, expired_poll_question_from_own_geozone)   }
-      it { should_not be_able_to(:answer, expired_poll_question_from_all_geozones)  }
-      it { should_not be_able_to(:answer, expired_poll_question_from_other_geozone) }
+      it { is_expected.not_to be_able_to(:answer, expired_poll_question_from_own_geozone)   }
+      it { is_expected.not_to be_able_to(:answer, expired_poll_question_from_all_geozones)  }
+      it { is_expected.not_to be_able_to(:answer, expired_poll_question_from_other_geozone) }
 
-      it { should_not be_able_to(:answer, incoming_poll_question_from_own_geozone)   }
-      it { should_not be_able_to(:answer, incoming_poll_question_from_all_geozones)  }
-      it { should_not be_able_to(:answer, incoming_poll_question_from_other_geozone) }
+      it { is_expected.not_to be_able_to(:answer, incoming_poll_question_from_own_geozone)   }
+      it { is_expected.not_to be_able_to(:answer, incoming_poll_question_from_all_geozones)  }
+      it { is_expected.not_to be_able_to(:answer, incoming_poll_question_from_other_geozone) }
 
       context "without geozone" do
-        before(:each) { user.geozone = nil }
+        before { user.geozone = nil }
 
-        it { should_not be_able_to(:answer, poll_question_from_own_geozone)   }
-        it { should     be_able_to(:answer, poll_question_from_all_geozones)  }
-        it { should_not be_able_to(:answer, poll_question_from_other_geozone) }
+        it { is_expected.not_to be_able_to(:answer, poll_question_from_own_geozone)   }
+        it { is_expected.to     be_able_to(:answer, poll_question_from_all_geozones)  }
+        it { is_expected.not_to be_able_to(:answer, poll_question_from_other_geozone) }
 
-        it { should_not be_able_to(:answer, expired_poll_question_from_own_geozone)   }
-        it { should_not be_able_to(:answer, expired_poll_question_from_all_geozones)  }
-        it { should_not be_able_to(:answer, expired_poll_question_from_other_geozone) }
+        it { is_expected.not_to be_able_to(:answer, expired_poll_question_from_own_geozone)   }
+        it { is_expected.not_to be_able_to(:answer, expired_poll_question_from_all_geozones)  }
+        it { is_expected.not_to be_able_to(:answer, expired_poll_question_from_other_geozone) }
 
-        it { should_not be_able_to(:answer, incoming_poll_question_from_own_geozone)   }
-        it { should_not be_able_to(:answer, incoming_poll_question_from_all_geozones)  }
-        it { should_not be_able_to(:answer, incoming_poll_question_from_other_geozone) }
+        it { is_expected.not_to be_able_to(:answer, incoming_poll_question_from_own_geozone)   }
+        it { is_expected.not_to be_able_to(:answer, incoming_poll_question_from_all_geozones)  }
+        it { is_expected.not_to be_able_to(:answer, incoming_poll_question_from_other_geozone) }
       end
     end
 
     describe "Budgets" do
-      it { should be_able_to(:create, investment_in_accepting_budget) }
-      it { should_not be_able_to(:create, investment_in_selecting_budget) }
-      it { should_not be_able_to(:create, investment_in_balloting_budget) }
+      it { is_expected.to be_able_to(:create, investment_in_accepting_budget) }
+      it { is_expected.not_to be_able_to(:create, investment_in_selecting_budget) }
+      it { is_expected.not_to be_able_to(:create, investment_in_balloting_budget) }
 
-      it { should_not be_able_to(:vote, investment_in_accepting_budget) }
-      it { should be_able_to(:vote, investment_in_selecting_budget) }
-      it { should_not be_able_to(:vote, investment_in_balloting_budget) }
-      
-      it { should_not be_able_to(:destroy, investment_in_accepting_budget) }
-      it { should_not be_able_to(:destroy, investment_in_reviewing_budget) }
-      it { should_not be_able_to(:destroy, investment_in_selecting_budget) }
-      it { should_not be_able_to(:destroy, investment_in_balloting_budget) }
+      it { is_expected.not_to be_able_to(:vote, investment_in_accepting_budget) }
+      it { is_expected.to be_able_to(:vote, investment_in_selecting_budget) }
+      it { is_expected.not_to be_able_to(:vote, investment_in_balloting_budget) }
 
-      it { should be_able_to(:destroy, own_investment_in_accepting_budget) }
-      it { should be_able_to(:destroy, own_investment_in_reviewing_budget) }
-      it { should_not be_able_to(:destroy, own_investment_in_selecting_budget) }
-      it { should_not be_able_to(:destroy, investment_in_balloting_budget) }
+      it { is_expected.not_to be_able_to(:destroy, investment_in_accepting_budget) }
+      it { is_expected.not_to be_able_to(:destroy, investment_in_reviewing_budget) }
+      it { is_expected.not_to be_able_to(:destroy, investment_in_selecting_budget) }
+      it { is_expected.not_to be_able_to(:destroy, investment_in_balloting_budget) }
 
-      it { should_not be_able_to(:create, ballot_in_accepting_budget) }
-      it { should_not be_able_to(:create, ballot_in_selecting_budget) }
-      it { should be_able_to(:create, ballot_in_balloting_budget) }
+      it { is_expected.to be_able_to(:destroy, own_investment_in_accepting_budget) }
+      it { is_expected.to be_able_to(:destroy, own_investment_in_reviewing_budget) }
+      it { is_expected.not_to be_able_to(:destroy, own_investment_in_selecting_budget) }
+      it { is_expected.not_to be_able_to(:destroy, investment_in_balloting_budget) }
+
+      it { is_expected.not_to be_able_to(:create, ballot_in_accepting_budget) }
+      it { is_expected.not_to be_able_to(:create, ballot_in_selecting_budget) }
+      it { is_expected.to be_able_to(:create, ballot_in_balloting_budget) }
     end
   end
 
   describe "when level 3 verified" do
     let(:own_spending_proposal) { create(:spending_proposal, author: user) }
     let(:own_direct_message) { create(:direct_message, sender: user) }
+
     before{ user.update(verified_at: Time.current) }
 
-    it { should be_able_to(:vote, Proposal)          }
-    it { should be_able_to(:vote_featured, Proposal) }
+    it { is_expected.to be_able_to(:vote, Proposal)          }
+    it { is_expected.to be_able_to(:vote_featured, Proposal) }
 
-    it { should     be_able_to(:create, SpendingProposal)                }
-    it { should_not be_able_to(:destroy, create(:spending_proposal)) }
-    it { should_not be_able_to(:destroy, own_spending_proposal)      }
+    it { is_expected.to     be_able_to(:create, SpendingProposal)                }
+    it { is_expected.not_to be_able_to(:destroy, create(:spending_proposal)) }
+    it { is_expected.not_to be_able_to(:destroy, own_spending_proposal)      }
 
-    it { should     be_able_to(:new, DirectMessage)            }
-    it { should     be_able_to(:create, DirectMessage)         }
-    it { should     be_able_to(:show, own_direct_message)      }
-    it { should_not be_able_to(:show, create(:direct_message)) }
+    it { is_expected.to     be_able_to(:new, DirectMessage)            }
+    it { is_expected.to     be_able_to(:create, DirectMessage)         }
+    it { is_expected.to     be_able_to(:show, own_direct_message)      }
+    it { is_expected.not_to be_able_to(:show, create(:direct_message)) }
 
-    it { should     be_able_to(:answer, current_poll)  }
-    it { should_not be_able_to(:answer, expired_poll)  }
-    it { should_not be_able_to(:answer, incoming_poll) }
+    it { is_expected.to     be_able_to(:answer, current_poll)  }
+    it { is_expected.not_to be_able_to(:answer, expired_poll)  }
+    it { is_expected.not_to be_able_to(:answer, incoming_poll) }
 
-    it { should     be_able_to(:answer, poll_question_from_own_geozone)   }
-    it { should     be_able_to(:answer, poll_question_from_all_geozones)  }
-    it { should_not be_able_to(:answer, poll_question_from_other_geozone) }
+    it { is_expected.to     be_able_to(:answer, poll_question_from_own_geozone)   }
+    it { is_expected.to     be_able_to(:answer, poll_question_from_all_geozones)  }
+    it { is_expected.not_to be_able_to(:answer, poll_question_from_other_geozone) }
 
-    it { should_not be_able_to(:answer, expired_poll_question_from_own_geozone)   }
-    it { should_not be_able_to(:answer, expired_poll_question_from_all_geozones)  }
-    it { should_not be_able_to(:answer, expired_poll_question_from_other_geozone) }
+    it { is_expected.not_to be_able_to(:answer, expired_poll_question_from_own_geozone)   }
+    it { is_expected.not_to be_able_to(:answer, expired_poll_question_from_all_geozones)  }
+    it { is_expected.not_to be_able_to(:answer, expired_poll_question_from_other_geozone) }
 
-    it { should_not be_able_to(:answer, incoming_poll_question_from_own_geozone)   }
-    it { should_not be_able_to(:answer, incoming_poll_question_from_all_geozones)  }
-    it { should_not be_able_to(:answer, incoming_poll_question_from_other_geozone) }
+    it { is_expected.not_to be_able_to(:answer, incoming_poll_question_from_own_geozone)   }
+    it { is_expected.not_to be_able_to(:answer, incoming_poll_question_from_all_geozones)  }
+    it { is_expected.not_to be_able_to(:answer, incoming_poll_question_from_other_geozone) }
 
     context "without geozone" do
-      before(:each) { user.geozone = nil }
-      it { should_not be_able_to(:answer, poll_question_from_own_geozone)   }
-      it { should     be_able_to(:answer, poll_question_from_all_geozones)  }
-      it { should_not be_able_to(:answer, poll_question_from_other_geozone) }
+      before { user.geozone = nil }
+      it { is_expected.not_to be_able_to(:answer, poll_question_from_own_geozone)   }
+      it { is_expected.to     be_able_to(:answer, poll_question_from_all_geozones)  }
+      it { is_expected.not_to be_able_to(:answer, poll_question_from_other_geozone) }
 
-      it { should_not be_able_to(:answer, expired_poll_question_from_own_geozone)   }
-      it { should_not be_able_to(:answer, expired_poll_question_from_all_geozones)  }
-      it { should_not be_able_to(:answer, expired_poll_question_from_other_geozone) }
+      it { is_expected.not_to be_able_to(:answer, expired_poll_question_from_own_geozone)   }
+      it { is_expected.not_to be_able_to(:answer, expired_poll_question_from_all_geozones)  }
+      it { is_expected.not_to be_able_to(:answer, expired_poll_question_from_other_geozone) }
 
-      it { should_not be_able_to(:answer, incoming_poll_question_from_own_geozone)   }
-      it { should_not be_able_to(:answer, incoming_poll_question_from_all_geozones)  }
-      it { should_not be_able_to(:answer, incoming_poll_question_from_other_geozone) }
+      it { is_expected.not_to be_able_to(:answer, incoming_poll_question_from_own_geozone)   }
+      it { is_expected.not_to be_able_to(:answer, incoming_poll_question_from_all_geozones)  }
+      it { is_expected.not_to be_able_to(:answer, incoming_poll_question_from_other_geozone) }
     end
   end
 end

@@ -4,9 +4,9 @@ module Abilities
 
     def initialize(user)
       valuator = user.valuator
-      can [:read, :update, :valuate], SpendingProposal
-      can [:read, :update, :valuate], Budget::Investment, id: valuator.investment_ids
-      cannot [:update, :valuate], Budget::Investment, budget: { phase: 'finished' }
+      can %i[read update valuate], SpendingProposal
+      can %i[read update valuate], Budget::Investment, id: valuator.investment_ids
+      cannot %i[update valuate], Budget::Investment, budget: { phase: 'finished' }
     end
   end
 end

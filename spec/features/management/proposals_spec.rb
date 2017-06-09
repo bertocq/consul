@@ -78,7 +78,7 @@ feature 'Proposals' do
       old_path = "#{management_proposals_path}/#{proposal.id}-something-else"
       visit old_path
 
-      expect(current_path).to_not eq(old_path)
+      expect(current_path).not_to eq(old_path)
       expect(current_path).to eq(right_path)
     end
   end
@@ -101,7 +101,7 @@ feature 'Proposals' do
       expect(page).to have_css('.proposal', count: 1)
       expect(page).to have_content(proposal1.title)
       expect(page).to have_content(proposal1.summary)
-      expect(page).to_not have_content(proposal2.title)
+      expect(page).not_to have_content(proposal2.title)
       expect(page).to have_css("a[href='#{management_proposal_path(proposal1)}']", text: proposal1.title)
     end
   end

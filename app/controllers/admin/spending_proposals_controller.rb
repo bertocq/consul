@@ -10,8 +10,7 @@ class Admin::SpendingProposalsController < Admin::BaseController
     @spending_proposals = SpendingProposal.scoped_filter(params, @current_filter).order(cached_votes_up: :desc, created_at: :desc).page(params[:page])
   end
 
-  def show
-  end
+  def show; end
 
   def edit
     load_admins

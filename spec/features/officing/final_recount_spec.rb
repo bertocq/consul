@@ -27,9 +27,9 @@ feature 'Officing Final Recount' do
       click_link 'Final recounts and results'
     end
 
-    expect(page).to_not have_content(not_allowed_poll_1.name)
-    expect(page).to_not have_content(not_allowed_poll_2.name)
-    expect(page).to_not have_content(not_allowed_poll_3.name)
+    expect(page).not_to have_content(not_allowed_poll_1.name)
+    expect(page).not_to have_content(not_allowed_poll_2.name)
+    expect(page).not_to have_content(not_allowed_poll_3.name)
     expect(page).to have_content(@poll.name)
 
     visit new_officing_poll_final_recount_path(not_allowed_poll_1)
@@ -48,7 +48,7 @@ feature 'Officing Final Recount' do
       click_link 'Add final recount'
     end
 
-    expect(page).to_not have_content('Your recounts')
+    expect(page).not_to have_content('Your recounts')
 
     booth_name = @officer_assignment.booth_assignment.booth.name
     date = I18n.l(@poll.starts_at.to_date, format: :long)
@@ -68,10 +68,10 @@ feature 'Officing Final Recount' do
 
   scenario 'Edit final recount' do
     final_recount = create(:poll_final_recount,
-                    officer_assignment: @officer_assignment,
-                    booth_assignment: @officer_assignment.booth_assignment,
-                    date: @poll.starts_at,
-                    count: 100)
+                           officer_assignment: @officer_assignment,
+                           booth_assignment: @officer_assignment.booth_assignment,
+                           date: @poll.starts_at,
+                           count: 100)
 
     booth_name = @officer_assignment.booth_assignment.booth.name
     date = I18n.l(final_recount.date.to_date, format: :long)
@@ -98,7 +98,7 @@ feature 'Officing Final Recount' do
       expect(page).to have_content(booth_name)
       expect(page).to have_content('42')
     end
-    expect(page).to_not have_content('100')
+    expect(page).not_to have_content('100')
   end
 
   scenario 'Show final and system recounts to compare' do
@@ -106,14 +106,16 @@ feature 'Officing Final Recount' do
     poll = final_officer_assignment.booth_assignment.poll
     poll.update(ends_at: 1.day.ago)
     final_recount = create(:poll_final_recount,
-                    officer_assignment: final_officer_assignment,
-                    booth_assignment: final_officer_assignment.booth_assignment,
-                    date: 7.days.ago,
-                    count: 100)
-    33.times { create(:poll_voter, :valid_document,
-                      poll: poll,
-                      booth_assignment: final_officer_assignment.booth_assignment,
-                      created_at: final_recount.date) }
+                           officer_assignment: final_officer_assignment,
+                           booth_assignment: final_officer_assignment.booth_assignment,
+                           date: 7.days.ago,
+                           count: 100)
+    33.times do
+      create(:poll_voter, :valid_document,
+             poll: poll,
+             booth_assignment: final_officer_assignment.booth_assignment,
+             created_at: final_recount.date)
+    end
 
     visit new_officing_poll_final_recount_path(poll)
     within("#poll_final_recount_#{final_recount.id}") do
@@ -129,10 +131,10 @@ feature 'Officing Final Recount' do
     poll = final_officer_assignment.booth_assignment.poll
     poll.update(ends_at: 1.day.ago)
     final_recount = create(:poll_final_recount,
-                    officer_assignment: final_officer_assignment,
-                    booth_assignment: final_officer_assignment.booth_assignment,
-                    date: 7.days.ago,
-                    count: 100)
+                           officer_assignment: final_officer_assignment,
+                           booth_assignment: final_officer_assignment.booth_assignment,
+                           date: 7.days.ago,
+                           count: 100)
     visit new_officing_poll_final_recount_path(poll)
     within("#poll_final_recount_#{final_recount.id}") do
       click_link "Add results"

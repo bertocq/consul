@@ -1,5 +1,5 @@
 class Users::RegistrationsController < Devise::RegistrationsController
-  prepend_before_action :authenticate_scope!, only: [:edit, :update, :destroy, :finish_signup, :do_finish_signup]
+  prepend_before_action :authenticate_scope!, only: %i[edit update destroy finish_signup do_finish_signup]
 
   invisible_captcha only: [:create], honeypot: :family_name, scope: :user
 
@@ -28,8 +28,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     redirect_to root_url, notice: t("devise.registrations.destroyed")
   end
 
-  def success
-  end
+  def success; end
 
   def finish_signup
     current_user.registering_with_oauth = false

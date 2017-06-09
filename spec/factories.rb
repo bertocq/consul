@@ -388,7 +388,7 @@ FactoryGirl.define do
   end
 
   factory :poll do
-    sequence(:name) { |n| "Poll #{SecureRandom.hex}" }
+    sequence(:name) { |_n| "Poll #{SecureRandom.hex}" }
 
     starts_at { 1.month.ago }
     ends_at { 1.month.from_now }
@@ -444,7 +444,7 @@ FactoryGirl.define do
   end
 
   factory :poll_final_recount, class: 'Poll::FinalRecount' do
-    association :officer_assignment, factory: [:poll_officer_assignment, :final]
+    association :officer_assignment, factory: %i[poll_officer_assignment final]
     association :booth_assignment, factory: :poll_booth_assignment
     count (1..100).to_a.sample
     date (1.month.ago.to_datetime..1.month.from_now.to_datetime).to_a.sample
@@ -471,7 +471,7 @@ FactoryGirl.define do
 
   factory :poll_answer, class: 'Poll::Answer' do
     association :question, factory: :poll_question
-    association :author, factory: [:user, :level_two]
+    association :author, factory: %i[user level_two]
     answer { question.valid_answers.sample }
   end
 
@@ -620,7 +620,7 @@ FactoryGirl.define do
       end_date Date.current + 8.days
       debate_start_date Date.current + 2.days
       debate_end_date Date.current + 4.days
-      draft_publication_date Date.current + 5.day
+      draft_publication_date Date.current + 5.days
       allegations_start_date Date.current + 5.days
       allegations_end_date Date.current + 7.days
       final_publication_date Date.current + 8.days
@@ -631,7 +631,7 @@ FactoryGirl.define do
       end_date Date.current - 2.days
       debate_start_date Date.current - 12.days
       debate_end_date Date.current - 9.days
-      draft_publication_date Date.current - 8.day
+      draft_publication_date Date.current - 8.days
       allegations_start_date Date.current - 8.days
       allegations_end_date Date.current - 4.days
       final_publication_date Date.current - 2.days
@@ -641,7 +641,7 @@ FactoryGirl.define do
       start_date Date.current - 5.days
       end_date Date.current + 5.days
       debate_start_date Date.current - 5.days
-      debate_end_date Date.current + 1.days
+      debate_end_date Date.current + 1.day
       draft_publication_date Date.current + 1.day
       allegations_start_date Date.current + 2.days
       allegations_end_date Date.current + 3.days
@@ -655,18 +655,18 @@ FactoryGirl.define do
     changelog "What changed in this version"
     status "draft"
     final_version false
-    body <<-LOREM_IPSUM
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+    body <<~LOREM_IPSUM
+      Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
 
-Expetenda tincidunt in sed, ex partem placerat sea, porro commodo ex eam. His putant aeterno interesset at. Usu ea mundi tincidunt, omnium virtute aliquando ius ex. Ea aperiri sententiae duo. Usu nullam dolorum quaestio ei, sit vidit facilisis ea. Per ne impedit iracundia neglegentur. Consetetur neglegentur eum ut, vis animal legimus inimicus id.
+      Expetenda tincidunt in sed, ex partem placerat sea, porro commodo ex eam. His putant aeterno interesset at. Usu ea mundi tincidunt, omnium virtute aliquando ius ex. Ea aperiri sententiae duo. Usu nullam dolorum quaestio ei, sit vidit facilisis ea. Per ne impedit iracundia neglegentur. Consetetur neglegentur eum ut, vis animal legimus inimicus id.
 
-His audiam deserunt in, eum ubique voluptatibus te. In reque dicta usu. Ne rebum dissentiet eam, vim omnis deseruisse id. Ullum deleniti vituperata at quo, insolens complectitur te eos, ea pri dico munere propriae. Vel ferri facilis ut, qui paulo ridens praesent ad. Possim alterum qui cu. Accusamus consulatu ius te, cu decore soleat appareat usu.
+      His audiam deserunt in, eum ubique voluptatibus te. In reque dicta usu. Ne rebum dissentiet eam, vim omnis deseruisse id. Ullum deleniti vituperata at quo, insolens complectitur te eos, ea pri dico munere propriae. Vel ferri facilis ut, qui paulo ridens praesent ad. Possim alterum qui cu. Accusamus consulatu ius te, cu decore soleat appareat usu.
 
-Est ei erat mucius quaeque. Ei his quas phaedrum, efficiantur mediocritatem ne sed, hinc oratio blandit ei sed. Blandit gloriatur eam et. Brute noluisse per et, verear disputando neglegentur at quo. Sea quem legere ei, unum soluta ne duo. Ludus complectitur quo te, ut vide autem homero pro.
+      Est ei erat mucius quaeque. Ei his quas phaedrum, efficiantur mediocritatem ne sed, hinc oratio blandit ei sed. Blandit gloriatur eam et. Brute noluisse per et, verear disputando neglegentur at quo. Sea quem legere ei, unum soluta ne duo. Ludus complectitur quo te, ut vide autem homero pro.
 
-Vis id minim dicant sensibus. Pri aliquip conclusionemque ad, ad malis evertitur torquatos his. Has ei solum harum reprimique, id illum saperet tractatos his. Ei omnis soleat antiopam quo. Ad augue inani postulant mel, mel ea qualisque forensibus.
+      Vis id minim dicant sensibus. Pri aliquip conclusionemque ad, ad malis evertitur torquatos his. Has ei solum harum reprimique, id illum saperet tractatos his. Ei omnis soleat antiopam quo. Ad augue inani postulant mel, mel ea qualisque forensibus.
 
-Lorem salutandi eu mea, eam in soleat iriure assentior. Tamquam lobortis id qui. Ea sanctus democritum mei, per eu alterum electram adversarium. Ea vix probo dicta iuvaret, posse epicurei suavitate eam an, nam et vidit menandri. Ut his accusata petentium.
+      Lorem salutandi eu mea, eam in soleat iriure assentior. Tamquam lobortis id qui. Ea sanctus democritum mei, per eu alterum electram adversarium. Ea vix probo dicta iuvaret, posse epicurei suavitate eam an, nam et vidit menandri. Ut his accusata petentium.
 LOREM_IPSUM
 
     trait :published do

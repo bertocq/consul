@@ -18,12 +18,12 @@ describe CensusApi do
     end
 
     it 'tries all the dni variants padding with zeroes' do
-      expect(api.get_document_number_variants(1, '0123456')).to eq(['123456', '0123456', '00123456'])
-      expect(api.get_document_number_variants(1, '00123456')).to eq(['123456', '0123456', '00123456'])
+      expect(api.get_document_number_variants(1, '0123456')).to eq(%w[123456 0123456 00123456])
+      expect(api.get_document_number_variants(1, '00123456')).to eq(%w[123456 0123456 00123456])
     end
 
     it 'adds upper and lowercase letter when the letter is present' do
-      expect(api.get_document_number_variants(1, '1234567A')).to eq(['1234567', '01234567', '1234567a', '1234567A', '01234567a', '01234567A'])
+      expect(api.get_document_number_variants(1, '1234567A')).to eq(%w[1234567 01234567 1234567a 1234567A 01234567a 01234567A])
     end
   end
 
@@ -48,7 +48,7 @@ describe CensusApi do
       expect(api).to receive(:get_response_body).with(1, "0123456").and_return(invalid_body)
       response = api.call(1, "123456")
 
-      expect(response).to_not be_valid
+      expect(response).not_to be_valid
     end
   end
 

@@ -2,8 +2,8 @@ class Admin::BannersController < Admin::BaseController
 
   has_filters %w{all with_active with_inactive}, only: :index
 
-  before_action :banner_styles, only: [:edit, :new, :create, :update]
-  before_action :banner_imgs, only: [:edit, :new, :create, :update]
+  before_action :banner_styles, only: %i[edit new create update]
+  before_action :banner_imgs, only: %i[edit new create update]
 
   respond_to :html, :js
 

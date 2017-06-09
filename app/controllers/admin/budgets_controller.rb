@@ -14,11 +14,9 @@ class Admin::BudgetsController < Admin::BaseController
     @budget = Budget.includes(groups: :headings).find(params[:id])
   end
 
-  def new
-  end
+  def new; end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @budget.update(budget_params)
@@ -41,7 +39,7 @@ class Admin::BudgetsController < Admin::BaseController
 
     def budget_params
       descriptions = Budget::PHASES.map{|p| "description_#{p}"}.map(&:to_sym)
-      valid_attributes = [:name, :phase, :currency_symbol] + descriptions
+      valid_attributes = %i[name phase currency_symbol] + descriptions
       params.require(:budget).permit(*valid_attributes)
     end
 

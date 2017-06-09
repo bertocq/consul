@@ -53,8 +53,7 @@ module CommentableActions
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     resource.assign_attributes(strong_params)

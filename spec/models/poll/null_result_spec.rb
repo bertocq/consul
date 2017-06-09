@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Poll::NullResult do
 
   describe "logging changes" do
-    it "should update amount_log if amount changes" do
+    it "updates amount_log if amount changes" do
       null_result = create(:poll_null_result, amount: 33)
 
       expect(null_result.amount_log).to eq("")
@@ -18,7 +18,7 @@ describe Poll::NullResult do
       expect(null_result.amount_log).to eq(":33:32")
     end
 
-    it "should update officer_assignment_id_log if amount changes" do
+    it "updates officer_assignment_id_log if amount changes" do
       null_result = create(:poll_null_result, amount: 33)
 
       expect(null_result.amount_log).to eq("")
@@ -40,7 +40,7 @@ describe Poll::NullResult do
       expect(null_result.officer_assignment_id_log).to eq(":101:102")
     end
 
-    it "should update author_id if amount changes" do
+    it "updates author_id if amount changes" do
       null_result = create(:poll_null_result, amount: 33)
 
       expect(null_result.amount_log).to eq("")

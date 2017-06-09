@@ -119,7 +119,7 @@ module CommonActions
   end
 
   def expect_to_not_be_signed_in
-    expect(find('.top-bar')).to_not have_content 'My account'
+    expect(find('.top-bar')).not_to have_content 'My account'
   end
 
   def select_date(values, selector)
@@ -187,16 +187,16 @@ module CommonActions
 
   def expect_message_voting_not_allowed
     expect(page).to have_content 'Voting phase is closed'
-    expect(page).to_not have_selector('.in-favor a')
+    expect(page).not_to have_selector('.in-favor a')
   end
 
   def expect_message_selecting_not_allowed
     expect(page).to have_content 'No Selecting Allowed'
-    expect(page).to_not have_selector('.in-favor a')
+    expect(page).not_to have_selector('.in-favor a')
   end
 
   def expect_message_organizations_cannot_vote
-    #expect(page).to have_content 'Organisations are not permitted to vote.'
+    # expect(page).to have_content 'Organisations are not permitted to vote.'
     expect(page).to have_content 'Organization'
     expect(page).to have_selector('.in-favor a', visible: false)
   end
@@ -271,8 +271,8 @@ module CommonActions
 
   def expect_no_badge_for(resource_name, resource)
     within("##{resource_name}_#{resource.id}") do
-      expect(page).to_not have_css ".label.round"
-      expect(page).to_not have_content "Employee"
+      expect(page).not_to have_css ".label.round"
+      expect(page).not_to have_content "Employee"
     end
   end
 

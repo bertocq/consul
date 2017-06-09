@@ -13,7 +13,7 @@ describe Budget::Result do
       investment3 = create(:budget_investment, :selected, heading: heading, price: 500, ballot_lines_count: 700)
       investment4 = create(:budget_investment, :selected, heading: heading, price: 100, ballot_lines_count: 600)
 
-      result = Budget::Result.new(budget, heading)
+      result = described_class.new(budget, heading)
       result.calculate_winners
 
       expect(result.winners).to eq([investment1, investment2, investment3])
@@ -25,7 +25,7 @@ describe Budget::Result do
       investment3 = create(:budget_investment, :selected, heading: heading, price: 500, ballot_lines_count: 700, winner: true)
       investment4 = create(:budget_investment, :selected, heading: heading, price: 100, ballot_lines_count: 600, winner: true)
 
-      result = Budget::Result.new(budget, heading)
+      result = described_class.new(budget, heading)
       result.calculate_winners
 
       expect(result.winners).to eq([investment1, investment2, investment3])

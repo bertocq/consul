@@ -7,7 +7,7 @@ class Moderation::DebatesController < Moderation::BaseController
 
   feature_flag :debates
 
-  before_action :load_resources, only: [:index, :moderate]
+  before_action :load_resources, only: %i[index moderate]
 
   load_and_authorize_resource
 

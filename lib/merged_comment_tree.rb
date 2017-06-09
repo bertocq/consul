@@ -12,8 +12,8 @@ class MergedCommentTree < CommentTree
   end
 
   def root_comments
-    Kaminari.paginate_array(commentables.flatten.map(&:comments).map(&:roots).flatten.sort_by {|a| a[array_order]}.reverse).
-    page(page).per(ROOT_COMMENTS_PER_PAGE)
+    Kaminari.paginate_array(commentables.flatten.map(&:comments).map(&:roots).flatten.sort_by {|a| a[array_order]}.reverse)
+            .page(page).per(ROOT_COMMENTS_PER_PAGE)
   end
 
   def set_array_order(order)

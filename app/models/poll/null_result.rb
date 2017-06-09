@@ -15,9 +15,9 @@ class Poll::NullResult < ActiveRecord::Base
 
   def update_logs
     if self.amount_changed? && self.amount_was.present?
-      self.amount_log += ":#{self.amount_was.to_s}"
-      self.officer_assignment_id_log += ":#{self.officer_assignment_id_was.to_s}"
-      self.author_id_log += ":#{self.author_id_was.to_s}"
+      self.amount_log += ":#{self.amount_was}"
+      self.officer_assignment_id_log += ":#{self.officer_assignment_id_was}"
+      self.author_id_log += ":#{self.author_id_was}"
     end
   end
 end

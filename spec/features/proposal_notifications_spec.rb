@@ -107,7 +107,7 @@ feature 'Proposal Notifications' do
       visit user_path(author)
 
       within("#proposal_#{proposal.id}") do
-        expect(page).to_not have_link "Send message"
+        expect(page).not_to have_link "Send message"
       end
     end
 

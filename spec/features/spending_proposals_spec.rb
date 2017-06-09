@@ -25,7 +25,7 @@ feature 'Spending proposals' do
       within('#investment-projects') do
         expect(page).to have_content spending_proposal.title
         expect(page).to have_css("a[href='#{spending_proposal_path(spending_proposal)}']", text: spending_proposal.title)
-        expect(page).to_not have_content(unfeasible_spending_proposal.title)
+        expect(page).not_to have_content(unfeasible_spending_proposal.title)
       end
     end
   end
@@ -48,7 +48,7 @@ feature 'Spending proposals' do
 
         expect(page).to have_content(spending_proposal1.title)
         expect(page).to have_content(spending_proposal2.title)
-        expect(page).to_not have_content(spending_proposal3.title)
+        expect(page).not_to have_content(spending_proposal3.title)
       end
     end
   end
@@ -72,8 +72,8 @@ feature 'Spending proposals' do
 
         expect(page).to have_content(spending_proposal1.title)
         expect(page).to have_content(spending_proposal3.title)
-        expect(page).to_not have_content(spending_proposal2.title)
-        expect(page).to_not have_content(spending_proposal4.title)
+        expect(page).not_to have_content(spending_proposal2.title)
+        expect(page).not_to have_content(spending_proposal4.title)
       end
     end
 
@@ -93,8 +93,8 @@ feature 'Spending proposals' do
         expect(page).to have_css('.investment-project', count: 1)
 
         expect(page).to have_content(spending_proposal1.title)
-        expect(page).to_not have_content(spending_proposal2.title)
-        expect(page).to_not have_content(spending_proposal3.title)
+        expect(page).not_to have_content(spending_proposal2.title)
+        expect(page).not_to have_content(spending_proposal3.title)
       end
     end
   end

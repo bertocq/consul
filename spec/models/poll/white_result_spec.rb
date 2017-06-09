@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Poll::WhiteResult do
 
   describe "logging changes" do
-    it "should update amount_log if amount changes" do
+    it "updates amount_log if amount changes" do
       white_result = create(:poll_white_result, amount: 33)
 
       expect(white_result.amount_log).to eq("")
@@ -18,7 +18,7 @@ describe Poll::WhiteResult do
       expect(white_result.amount_log).to eq(":33:32")
     end
 
-    it "should update officer_assignment_id_log if amount changes" do
+    it "updates officer_assignment_id_log if amount changes" do
       white_result = create(:poll_white_result, amount: 33)
 
       expect(white_result.amount_log).to eq("")
@@ -40,7 +40,7 @@ describe Poll::WhiteResult do
       expect(white_result.officer_assignment_id_log).to eq(":21:22")
     end
 
-    it "should update author_id if amount changes" do
+    it "updates author_id if amount changes" do
       white_result = create(:poll_white_result, amount: 33)
 
       expect(white_result.amount_log).to eq("")

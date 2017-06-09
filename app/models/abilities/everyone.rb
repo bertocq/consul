@@ -3,26 +3,26 @@ module Abilities
     include CanCan::Ability
 
     def initialize(user)
-      can [:read, :map], Debate
-      can [:read, :map, :summary, :share], Proposal
+      can %i[read map], Debate
+      can %i[read map summary share], Proposal
       can :read, Comment
       can :read, Poll
       can :read, Poll::Question
-      can [:read, :welcome], Budget
+      can %i[read welcome], Budget
       can :read, Budget::Investment
       can :read, SpendingProposal
       can :read, LegacyLegislation
       can :read, User
-      can [:search, :read], Annotation
+      can %i[search read], Annotation
       can [:read], Budget
       can [:read], Budget::Group
-      can [:read, :print], Budget::Investment
+      can %i[read print], Budget::Investment
       can :new, DirectMessage
-      can [:read, :debate, :draft_publication, :allegations, :final_version_publication], Legislation::Process
-      can [:read, :changes, :go_to_version], Legislation::DraftVersion
+      can %i[read debate draft_publication allegations final_version_publication], Legislation::Process
+      can %i[read changes go_to_version], Legislation::DraftVersion
       can [:read], Legislation::Question
       can [:create], Legislation::Answer
-      can [:search, :comments, :read, :create, :new_comment], Legislation::Annotation
+      can %i[search comments read create new_comment], Legislation::Annotation
     end
   end
 end

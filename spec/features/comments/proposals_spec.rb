@@ -47,7 +47,7 @@ feature 'Commenting proposals' do
     find("#comment_#{child_comment.id}_children_arrow").trigger('click')
 
     expect(page).to have_css('.comment', count: 2)
-    expect(page).to_not have_content grandchild_comment.body
+    expect(page).not_to have_content grandchild_comment.body
 
     find("#comment_#{child_comment.id}_children_arrow").trigger('click')
 
@@ -57,8 +57,8 @@ feature 'Commenting proposals' do
     find("#comment_#{parent_comment.id}_children_arrow").trigger('click')
 
     expect(page).to have_css('.comment', count: 1)
-    expect(page).to_not have_content child_comment.body
-    expect(page).to_not have_content grandchild_comment.body
+    expect(page).not_to have_content child_comment.body
+    expect(page).not_to have_content grandchild_comment.body
   end
 
   scenario 'Comment order' do
@@ -139,7 +139,7 @@ feature 'Commenting proposals' do
     within("ul.pagination") do
       expect(page).to have_content("1")
       expect(page).to have_content("2")
-      expect(page).to_not have_content("3")
+      expect(page).not_to have_content("3")
       click_link "Next", exact: false
     end
 
@@ -153,8 +153,8 @@ feature 'Commenting proposals' do
 
       expect(page).to have_content 'You must Sign in or Sign up to leave a comment'
       within('#comments') do
-        expect(page).to_not have_content 'Write a comment'
-        expect(page).to_not have_content 'Reply'
+        expect(page).not_to have_content 'Write a comment'
+        expect(page).not_to have_content 'Reply'
       end
     end
   end
@@ -203,7 +203,7 @@ feature 'Commenting proposals' do
       expect(page).to have_content 'It will be done next week.'
     end
 
-    expect(page).to_not have_selector("#js-comment-form-comment_#{comment.id}", visible: true)
+    expect(page).not_to have_selector("#js-comment-form-comment_#{comment.id}", visible: true)
   end
 
   scenario 'Errors on reply', :js do
@@ -263,7 +263,7 @@ feature 'Commenting proposals' do
       expect(page).to have_css("#flag-expand-comment-#{comment.id}")
     end
 
-    expect(Flag.flagged?(user, comment)).to_not be
+    expect(Flag.flagged?(user, comment)).not_to be
   end
 
   scenario "Flagging turbolinks sanity check", :js do
@@ -335,7 +335,7 @@ feature 'Commenting proposals' do
         expect(page).to have_css "img.moderator-avatar"
       end
 
-      expect(page).to_not have_selector("#js-comment-form-comment_#{comment.id}", visible: true)
+      expect(page).not_to have_selector("#js-comment-form-comment_#{comment.id}", visible: true)
     end
 
     scenario "can not comment as an administrator" do
@@ -344,7 +344,7 @@ feature 'Commenting proposals' do
       login_as(moderator.user)
       visit proposal_path(proposal)
 
-      expect(page).to_not have_content "Comment as administrator"
+      expect(page).not_to have_content "Comment as administrator"
     end
   end
 
@@ -391,7 +391,7 @@ feature 'Commenting proposals' do
         expect(page).to have_css "img.admin-avatar"
       end
 
-      expect(page).to_not have_selector("#js-comment-form-comment_#{comment.id}", visible: true)
+      expect(page).not_to have_selector("#js-comment-form-comment_#{comment.id}", visible: true)
     end
 
     scenario "can not comment as a moderator" do
@@ -400,7 +400,7 @@ feature 'Commenting proposals' do
       login_as(admin.user)
       visit proposal_path(proposal)
 
-      expect(page).to_not have_content "Comment as moderator"
+      expect(page).not_to have_content "Comment as moderator"
     end
   end
 

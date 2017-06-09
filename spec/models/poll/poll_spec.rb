@@ -5,36 +5,36 @@ describe :poll do
   let(:poll) { build(:poll) }
 
   describe "validations" do
-    it "should be valid" do
+    it "is valid" do
       expect(poll).to be_valid
     end
 
-    it "should not be valid without a name" do
+    it "is not valid without a name" do
       poll.name = nil
-      expect(poll).to_not be_valid
+      expect(poll).not_to be_valid
     end
 
-    it "should not be valid without a start date" do
+    it "is not valid without a start date" do
       poll.starts_at = nil
-      expect(poll).to_not be_valid
+      expect(poll).not_to be_valid
     end
 
-    it "should not be valid without an end date" do
+    it "is not valid without an end date" do
       poll.ends_at = nil
-      expect(poll).to_not be_valid
+      expect(poll).not_to be_valid
     end
 
-    it "should not be valid without a proper start/end date range" do
+    it "is not valid without a proper start/end date range" do
       poll.starts_at = 1.week.ago
       poll.ends_at = 2.months.ago
-      expect(poll).to_not be_valid
+      expect(poll).not_to be_valid
     end
   end
 
   describe "#opened?" do
     it "returns true only when it isn't too early or too late" do
-      expect(create(:poll, :incoming)).to_not be_current
-      expect(create(:poll, :expired)).to_not be_current
+      expect(create(:poll, :incoming)).not_to be_current
+      expect(create(:poll, :expired)).not_to be_current
       expect(create(:poll)).to be_current
     end
   end
@@ -42,22 +42,22 @@ describe :poll do
   describe "#incoming?" do
     it "returns true only when it is too early" do
       expect(create(:poll, :incoming)).to be_incoming
-      expect(create(:poll, :expired)).to_not be_incoming
-      expect(create(:poll)).to_not be_incoming
+      expect(create(:poll, :expired)).not_to be_incoming
+      expect(create(:poll)).not_to be_incoming
     end
   end
 
   describe "#expired?" do
     it "returns true only when it is too late" do
-      expect(create(:poll, :incoming)).to_not be_expired
+      expect(create(:poll, :incoming)).not_to be_expired
       expect(create(:poll, :expired)).to be_expired
-      expect(create(:poll)).to_not be_expired
+      expect(create(:poll)).not_to be_expired
     end
   end
 
   describe "#published?" do
     it "returns true only when published is true" do
-      expect(create(:poll)).to_not be_published
+      expect(create(:poll)).not_to be_published
       expect(create(:poll, :published)).to be_published
     end
   end
@@ -99,15 +99,15 @@ describe :poll do
     describe 'instance method' do
       it "rejects non-users and level 1 users" do
         all_polls.each do |poll|
-          expect(poll).to_not be_answerable_by(non_user)
-          expect(poll).to_not be_answerable_by(level1)
+          expect(poll).not_to be_answerable_by(non_user)
+          expect(poll).not_to be_answerable_by(level1)
         end
       end
 
       it "rejects everyone when not current" do
         non_current_polls.each do |poll|
           all_users.each do |user|
-            expect(poll).to_not be_answerable_by(user)
+            expect(poll).not_to be_answerable_by(user)
           end
         end
       end
@@ -118,7 +118,7 @@ describe :poll do
       end
 
       it "accepts level 2 users only from the same geozone when restricted by geozone" do
-        expect(current_restricted_poll).to_not be_answerable_by(level2)
+        expect(current_restricted_poll).not_to be_answerable_by(level2)
         expect(current_restricted_poll).to be_answerable_by(level2_from_geozone)
       end
     end

@@ -4,11 +4,10 @@ feature "Custom Pages" do
   context "Override existing page" do
     scenario "See default content when custom page is not published" do
       custom_page = create(:site_customization_page,
-        slug: "conditions",
-        title: "Custom conditions",
-        content: "New text for conditions page",
-        print_content_flag: true
-      )
+                           slug: "conditions",
+                           title: "Custom conditions",
+                           content: "New text for conditions page",
+                           print_content_flag: true)
 
       visit custom_page.url
 
@@ -20,11 +19,10 @@ feature "Custom Pages" do
 
     scenario "See custom content when custom page is published" do
       custom_page = create(:site_customization_page, :published,
-        slug: "conditions",
-        title: "Custom conditions",
-        content: "New text for conditions page",
-        print_content_flag: true
-      )
+                           slug: "conditions",
+                           title: "Custom conditions",
+                           content: "New text for conditions page",
+                           print_content_flag: true)
 
       visit custom_page.url
 
@@ -39,11 +37,10 @@ feature "Custom Pages" do
     context "Draft" do
       scenario "See page" do
         custom_page = create(:site_customization_page,
-          slug: "other-slug",
-          title: "Custom page",
-          content: "Text for new custom page",
-          print_content_flag: false
-        )
+                             slug: "other-slug",
+                             title: "Custom page",
+                             content: "Text for new custom page",
+                             print_content_flag: false)
 
         visit custom_page.url
 
@@ -54,26 +51,24 @@ feature "Custom Pages" do
     context "Published" do
       scenario "See page" do
         custom_page = create(:site_customization_page, :published,
-          slug: "other-slug",
-          title: "Custom page",
-          content: "Text for new custom page",
-          print_content_flag: false
-        )
+                             slug: "other-slug",
+                             title: "Custom page",
+                             content: "Text for new custom page",
+                             print_content_flag: false)
 
         visit custom_page.url
 
         expect(page).to have_title("Custom page")
         expect(page).to have_selector("h1", text: "Custom page")
         expect(page).to have_content("Text for new custom page")
-        expect(page).to_not have_content("Print this info")
+        expect(page).not_to have_content("Print this info")
       end
 
       scenario "Listed in more information page" do
         custom_page = create(:site_customization_page, :published,
-          slug: "another-slug", title: "Another custom page",
-          subtitle: "Subtitle for custom page",
-          more_info_flag: true
-        )
+                             slug: "another-slug", title: "Another custom page",
+                             subtitle: "Subtitle for custom page",
+                             more_info_flag: true)
 
         visit more_info_path
 
@@ -82,14 +77,13 @@ feature "Custom Pages" do
 
       scenario "Not listed in more information page" do
         custom_page = create(:site_customization_page, :published,
-          slug: "another-slug", title: "Another custom page",
-          subtitle: "Subtitle for custom page",
-          more_info_flag: false
-        )
+                             slug: "another-slug", title: "Another custom page",
+                             subtitle: "Subtitle for custom page",
+                             more_info_flag: false)
 
         visit more_info_path
 
-        expect(page).to_not have_content("Another custom page")
+        expect(page).not_to have_content("Another custom page")
 
         visit custom_page.url
 

@@ -28,7 +28,7 @@ feature 'Valuation spending proposals' do
     visit valuation_spending_proposals_path
 
     expect(page).to have_content(spending_proposal1.title)
-    expect(page).to_not have_content(spending_proposal2.title)
+    expect(page).not_to have_content(spending_proposal2.title)
   end
 
   scenario 'Index shows no spending proposals to admins no valuators' do
@@ -40,8 +40,8 @@ feature 'Valuation spending proposals' do
     login_as create(:administrator).user
     visit valuation_spending_proposals_path
 
-    expect(page).to_not have_content(spending_proposal1.title)
-    expect(page).to_not have_content(spending_proposal2.title)
+    expect(page).not_to have_content(spending_proposal1.title)
+    expect(page).not_to have_content(spending_proposal2.title)
   end
 
   scenario 'Index orders spending proposals by votes' do
@@ -101,12 +101,12 @@ feature 'Valuation spending proposals' do
     click_link "District 9", exact: false
 
     expect(page).to have_link("Realocate visitors")
-    expect(page).to_not have_link("Destroy the city")
+    expect(page).not_to have_link("Destroy the city")
 
     click_link "All city", exact: false
 
     expect(page).to have_link("Destroy the city")
-    expect(page).to_not have_link("Realocate visitors")
+    expect(page).not_to have_link("Realocate visitors")
 
     click_link "All zones", exact: false
     expect(page).to have_link("Realocate visitors")
@@ -119,13 +119,13 @@ feature 'Valuation spending proposals' do
 
     visit valuation_spending_proposals_path
 
-    expect(page).to_not have_link(filters_links.values.first)
+    expect(page).not_to have_link(filters_links.values.first)
     filters_links.keys.drop(1).each { |filter| expect(page).to have_link(filters_links[filter]) }
 
     filters_links.each_pair do |current_filter, link|
       visit valuation_spending_proposals_path(filter: current_filter)
 
-      expect(page).to_not have_link(link)
+      expect(page).not_to have_link(link)
 
       (filters_links.keys - [current_filter]).each do |filter|
         expect(page).to have_link(filters_links[filter])
@@ -142,16 +142,16 @@ feature 'Valuation spending proposals' do
     visit valuation_spending_proposals_path(filter: 'valuation_open')
 
     expect(page).to have_content("Ongoing valuation")
-    expect(page).to_not have_content("Old idea")
+    expect(page).not_to have_content("Old idea")
 
     visit valuation_spending_proposals_path(filter: 'valuating')
 
     expect(page).to have_content("Ongoing valuation")
-    expect(page).to_not have_content("Old idea")
+    expect(page).not_to have_content("Old idea")
 
     visit valuation_spending_proposals_path(filter: 'valuation_finished')
 
-    expect(page).to_not have_content("Ongoing valuation")
+    expect(page).not_to have_content("Ongoing valuation")
     expect(page).to have_content("Old idea")
   end
 
@@ -257,8 +257,8 @@ feature 'Valuation spending proposals' do
       within('#price_first_year') { expect(page).to have_content('Undefined') }
       within('#time_scope') { expect(page).to have_content('Undefined') }
       within('#feasibility') { expect(page).to have_content('Undefined') }
-      expect(page).to_not have_content('Valuation finished')
-      expect(page).to_not have_content('Internal comments')
+      expect(page).not_to have_content('Valuation finished')
+      expect(page).not_to have_content('Internal comments')
     end
 
     scenario 'Edit dossier' do
@@ -286,7 +286,7 @@ feature 'Valuation spending proposals' do
       expect(page).to have_content('Very cheap idea')
       within('#time_scope') { expect(page).to have_content('19 months') }
       within('#feasibility') { expect(page).to have_content('Feasible') }
-      expect(page).to_not have_content('Valuation finished')
+      expect(page).not_to have_content('Valuation finished')
       expect(page).to have_content('Internal comments')
       expect(page).to have_content('Should be double checked by the urbanism area')
     end
@@ -300,7 +300,7 @@ feature 'Valuation spending proposals' do
       click_button 'Save changes'
 
       visit edit_valuation_spending_proposal_path(@spending_proposal)
-      expect(find "#spending_proposal_feasible_nil").to_not be_checked
+      expect(find "#spending_proposal_feasible_nil").not_to be_checked
       expect(find "#spending_proposal_feasible_true").to be_checked
 
       choose 'spending_proposal_feasible_nil'
@@ -327,7 +327,7 @@ feature 'Valuation spending proposals' do
       choose 'spending_proposal_feasible_true'
 
       feasible_false_fields.each do |field|
-        expect(page).to_not have_content(field)
+        expect(page).not_to have_content(field)
       end
 
       (feasible_true_fields + feasible_any_fields).each do |field|
@@ -337,7 +337,7 @@ feature 'Valuation spending proposals' do
       choose 'spending_proposal_feasible_false'
 
       feasible_true_fields.each do |field|
-        expect(page).to_not have_content(field)
+        expect(page).not_to have_content(field)
       end
 
       (feasible_false_fields + feasible_any_fields).each do |field|
@@ -350,7 +350,7 @@ feature 'Valuation spending proposals' do
 
       expect(find "#spending_proposal_feasible_false").to be_checked
       feasible_true_fields.each do |field|
-        expect(page).to_not have_content(field)
+        expect(page).not_to have_content(field)
       end
 
       (feasible_false_fields + feasible_any_fields).each do |field|
@@ -372,7 +372,7 @@ feature 'Valuation spending proposals' do
       click_button 'Save changes'
 
       visit valuation_spending_proposals_path
-      expect(page).to_not have_content @spending_proposal.title
+      expect(page).not_to have_content @spending_proposal.title
       click_link 'Valuation finished'
 
       expect(page).to have_content @spending_proposal.title

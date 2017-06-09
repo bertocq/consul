@@ -1,6 +1,6 @@
 class Admin::Poll::BoothAssignmentsController < Admin::BaseController
 
-  before_action :load_poll, except: [:create, :destroy]
+  before_action :load_poll, except: %i[create destroy]
 
   def index
     @booth_assignments = @poll.booth_assignments.includes(:booth).order('poll_booths.name').page(params[:page]).per(50)
@@ -22,22 +22,22 @@ class Admin::Poll::BoothAssignmentsController < Admin::BaseController
   def create
     @booth_assignment = ::Poll::BoothAssignment.new(poll_id: booth_assignment_params[:poll_id], booth_id: booth_assignment_params[:booth_id])
 
-    if @booth_assignment.save
-      notice = t("admin.poll_booth_assignments.flash.create")
-    else
-      notice = t("admin.poll_booth_assignments.flash.error_create")
-    end
+    notice = if @booth_assignment.save
+               t("admin.poll_booth_assignments.flash.create")
+             else
+               t("admin.poll_booth_assignments.flash.error_create")
+             end
     redirect_to admin_poll_booth_assignments_path(@booth_assignment.poll_id), notice: notice
   end
 
   def destroy
     @booth_assignment = ::Poll::BoothAssignment.find(params[:id])
 
-    if @booth_assignment.destroy
-      notice = t("admin.poll_booth_assignments.flash.destroy")
-    else
-      notice = t("admin.poll_booth_assignments.flash.error_destroy")
-    end
+    notice = if @booth_assignment.destroy
+               t("admin.poll_booth_assignments.flash.destroy")
+             else
+               t("admin.poll_booth_assignments.flash.error_destroy")
+             end
     redirect_to admin_poll_booth_assignments_path(@booth_assignment.poll_id), notice: notice
   end
 

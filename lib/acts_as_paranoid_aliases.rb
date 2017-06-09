@@ -13,8 +13,7 @@ module ActsAsParanoidAliases
       deleted?
     end
 
-    def after_hide
-    end
+    def after_hide; end
 
     def confirmed_hide?
       confirmed_hide_at.present?
@@ -31,8 +30,7 @@ module ActsAsParanoidAliases
       after_restore
     end
 
-    def after_restore
-    end
+    def after_restore; end
   end
 
   module ClassMethods

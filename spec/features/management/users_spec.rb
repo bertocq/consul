@@ -28,8 +28,8 @@ feature 'Users' do
 
     expect(user).to be_level_three_verified
     expect(user).to be_residence_verified
-    expect(user).to_not be_confirmed
-    expect(user.date_of_birth).to have_content (Date.new(1980,12,31))
+    expect(user).not_to be_confirmed
+    expect(user.date_of_birth).to have_content Date.new(1980, 12, 31)
 
     sent_token = /.*confirmation_token=(.*)".*/.match(ActionMailer::Base.deliveries.last.body.to_s)[1]
     visit user_confirmation_path(confirmation_token: sent_token)
@@ -53,7 +53,7 @@ feature 'Users' do
     fill_in 'document_verification_document_number', with: '12345678Z'
     click_button 'Check'
 
-    expect(page).to_not have_content "This user account is already verified."
+    expect(page).not_to have_content "This user account is already verified."
     expect(page).to have_content "This user can participate in the website with the following permissions"
 
     click_link "Delete user"

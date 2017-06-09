@@ -4,8 +4,7 @@ class Moderation::UsersController < Moderation::BaseController
 
   load_and_authorize_resource
 
-  def index
-  end
+  def index; end
 
   def hide_in_moderation_screen
     block_user

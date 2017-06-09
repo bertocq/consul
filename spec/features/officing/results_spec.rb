@@ -29,9 +29,9 @@ feature 'Officing Results' do
       click_link 'Final recounts and results'
     end
 
-    expect(page).to_not have_content(not_allowed_poll_1.name)
-    expect(page).to_not have_content(not_allowed_poll_2.name)
-    expect(page).to_not have_content(not_allowed_poll_3.name)
+    expect(page).not_to have_content(not_allowed_poll_1.name)
+    expect(page).not_to have_content(not_allowed_poll_2.name)
+    expect(page).not_to have_content(not_allowed_poll_3.name)
     expect(page).to have_content(@poll.name)
 
     visit new_officing_poll_result_path(not_allowed_poll_1)
@@ -50,7 +50,7 @@ feature 'Officing Results' do
       click_link 'Add results'
     end
 
-    expect(page).to_not have_content('Your results')
+    expect(page).not_to have_content('Your results')
 
     booth_name = @officer_assignment.booth_assignment.booth.name
     date = I18n.l(@poll.starts_at.to_date, format: :long)
@@ -78,13 +78,13 @@ feature 'Officing Results' do
 
   scenario 'Edit result' do
     partial_result = create(:poll_partial_result,
-                      officer_assignment: @officer_assignment,
-                      booth_assignment: @officer_assignment.booth_assignment,
-                      date: @poll.starts_at,
-                      question: @question_1,
-                      answer: @question_1.valid_answers[0],
-                      author: @poll_officer.user,
-                      amount: 7777)
+                            officer_assignment: @officer_assignment,
+                            booth_assignment: @officer_assignment.booth_assignment,
+                            date: @poll.starts_at,
+                            question: @question_1,
+                            answer: @question_1.valid_answers[0],
+                            author: @poll_officer.user,
+                            amount: 7777)
 
     visit officing_poll_results_path(@poll, date: I18n.l(partial_result.date), booth_assignment_id: partial_result.booth_assignment_id)
 
@@ -110,7 +110,7 @@ feature 'Officing Results' do
       click_link "See results"
     end
 
-    expect(page).to_not have_content('7777')
+    expect(page).not_to have_content('7777')
     within("#white_results") { expect(page).to have_content('6') }
     within("#null_results")  { expect(page).to have_content('7') }
     within("#question_#{@question_1.id}_0_result") { expect(page).to have_content('5555') }
@@ -119,21 +119,21 @@ feature 'Officing Results' do
 
   scenario 'Index lists all questions and answers' do
     partial_result = create(:poll_partial_result,
-                      officer_assignment: @officer_assignment,
-                      booth_assignment: @officer_assignment.booth_assignment,
-                      date: @poll.ends_at,
-                      question: @question_1,
-                      amount: 33)
+                            officer_assignment: @officer_assignment,
+                            booth_assignment: @officer_assignment.booth_assignment,
+                            date: @poll.ends_at,
+                            question: @question_1,
+                            amount: 33)
     white_result = create(:poll_white_result,
-                      officer_assignment: @officer_assignment,
-                      booth_assignment: @officer_assignment.booth_assignment,
-                      date: @poll.ends_at,
-                      amount: 21)
+                          officer_assignment: @officer_assignment,
+                          booth_assignment: @officer_assignment.booth_assignment,
+                          date: @poll.ends_at,
+                          amount: 21)
     null_result = create(:poll_null_result,
-                      officer_assignment: @officer_assignment,
-                      booth_assignment: @officer_assignment.booth_assignment,
-                      date: @poll.ends_at,
-                      amount: 44)
+                         officer_assignment: @officer_assignment,
+                         booth_assignment: @officer_assignment.booth_assignment,
+                         date: @poll.ends_at,
+                         amount: 44)
 
     visit officing_poll_results_path(@poll,
                                      date: I18n.l(@poll.ends_at.to_date),

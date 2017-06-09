@@ -1,7 +1,7 @@
 class WelcomeController < ApplicationController
   skip_authorization_check
 
-  layout "devise", only: [:welcome, :verification]
+  layout "devise", only: %i[welcome verification]
 
   def index
     if current_user
@@ -9,8 +9,7 @@ class WelcomeController < ApplicationController
     end
   end
 
-  def welcome
-  end
+  def welcome; end
 
   def verification
     redirect_to verification_path if signed_in?

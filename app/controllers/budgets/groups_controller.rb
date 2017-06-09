@@ -6,8 +6,7 @@ module Budgets
     before_action :set_default_budget_filter, only: :show
     has_filters %w{not_unfeasible feasible unfeasible unselected selected}, only: [:show]
 
-    def show
-    end
+    def show; end
 
   end
 end

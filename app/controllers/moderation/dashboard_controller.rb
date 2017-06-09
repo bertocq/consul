@@ -1,6 +1,5 @@
 class Moderation::DashboardController < Moderation::BaseController
 
-  def index
-  end
+  def index; end
 
 end

@@ -8,11 +8,9 @@ class Admin::GeozonesController < Admin::BaseController
     @geozones = Geozone.all.order("LOWER(name)")
   end
 
-  def new
-  end
+  def new; end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @geozone = Geozone.new(geozone_params)

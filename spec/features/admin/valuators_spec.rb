@@ -12,7 +12,7 @@ feature 'Admin valuators' do
   scenario 'Index' do
     expect(page).to have_content @valuator.name
     expect(page).to have_content @valuator.email
-    expect(page).to_not have_content @user.name
+    expect(page).not_to have_content @user.name
   end
 
   scenario 'Create Valuator', :js do

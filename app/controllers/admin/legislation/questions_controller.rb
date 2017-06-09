@@ -39,7 +39,7 @@ class Admin::Legislation::QuestionsController < Admin::Legislation::BaseControll
     def question_params
       params.require(:legislation_question).permit(
         :title,
-        question_options_attributes: [:id, :value, :_destroy]
+        question_options_attributes: %i[id value _destroy]
       )
     end
 end

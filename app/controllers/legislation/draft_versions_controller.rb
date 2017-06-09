@@ -2,8 +2,7 @@ class Legislation::DraftVersionsController < Legislation::BaseController
   load_and_authorize_resource :process
   load_and_authorize_resource :draft_version, through: :process
 
-  def index
-  end
+  def index; end
 
   def show
     @draft_versions_list = visible_draft_versions

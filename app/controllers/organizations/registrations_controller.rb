@@ -8,8 +8,7 @@ class Organizations::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  def success
-  end
+  def success; end
 
   def create
     build_resource(sign_up_params)
@@ -32,7 +31,7 @@ class Organizations::RegistrationsController < Devise::RegistrationsController
   private
 
     def sign_up_params
-      params.require(:user).permit(:email, :password, :phone_number, :password_confirmation, :terms_of_service, organization_attributes: [:name, :responsible_name])
+      params.require(:user).permit(:email, :password, :phone_number, :password_confirmation, :terms_of_service, organization_attributes: %i[name responsible_name])
     end
 
 end

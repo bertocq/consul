@@ -1,20 +1,18 @@
 class Admin::Poll::PollsController < Admin::BaseController
   load_and_authorize_resource
 
-  before_action :load_search, only: [:search_booths, :search_questions, :search_officers]
-  before_action :load_geozones, only: [:new, :create, :edit, :update]
+  before_action :load_search, only: %i[search_booths search_questions search_officers]
+  before_action :load_geozones, only: %i[new create edit update]
 
-  def index
-  end
+  def index; end
 
   def show
-    @poll = Poll.includes(:questions).
-                          order('poll_questions.title').
-                          find(params[:id])
+    @poll = Poll.includes(:questions)
+                .order('poll_questions.title')
+                .find(params[:id])
   end
 
-  def new
-  end
+  def new; end
 
   def create
     if @poll.save
@@ -24,8 +22,7 @@ class Admin::Poll::PollsController < Admin::BaseController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @poll.update(poll_params)
@@ -60,13 +57,14 @@ class Admin::Poll::PollsController < Admin::BaseController
   end
 
   def search_questions
-    @questions = ::Poll::Question.where("poll_id IS ? OR poll_id != ?", nil, @poll.id).search({search: @search}).order(title: :asc)
+    @questions = ::Poll::Question.where("poll_id IS ? OR poll_id != ?", nil, @poll.id).search(search: @search).order(title: :asc)
     respond_to do |format|
       format.js
     end
   end
 
   private
+
     def load_geozones
       @geozones = Geozone.all.order(:name)
     end

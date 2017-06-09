@@ -34,7 +34,7 @@ class AnnotationsController < ApplicationController
   def annotation_params
     params
       .require(:annotation)
-      .permit(:quote, :text, ranges: [:start, :startOffset, :end, :endOffset])
+      .permit(:quote, :text, ranges: %i[start startOffset end endOffset])
       .merge(legacy_legislation_id: params[:legacy_legislation_id])
   end
 end

@@ -2,8 +2,7 @@ class Management::AccountController < Management::BaseController
 
   before_action :only_verified_users
 
-  def show
-  end
+  def show; end
 
   private
 

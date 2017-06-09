@@ -18,7 +18,7 @@ feature 'Admin newsletters emails' do
 
   scenario 'Download newsletter email zip' do
     click_link download_button_text
-    downloaded_file_content = Zip::InputStream.open(StringIO.new(page.body)).get_next_entry.get_input_stream {|is| is.read }
+    downloaded_file_content = Zip::InputStream.open(StringIO.new(page.body)).get_next_entry.get_input_stream(&:read)
     expect(downloaded_file_content).to include(@admin.user.email, @newsletter_user.email)
     expect(downloaded_file_content).not_to include(@non_newsletter_user.email)
   end

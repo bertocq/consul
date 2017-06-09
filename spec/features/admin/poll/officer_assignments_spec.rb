@@ -36,14 +36,14 @@ feature 'Admin officer assignments in poll' do
     end
 
     expect(page).to have_content 'Officing shift added'
-    expect(page).to_not have_content 'This user has no officing shifts in this poll'
+    expect(page).not_to have_content 'This user has no officing shifts in this poll'
 
     visit admin_poll_path(booth_assignment.poll)
     within('#poll-resources') do
       click_link 'Officers (1)'
     end
 
-    expect(page).to_not have_content 'There are no officers in this poll'
+    expect(page).not_to have_content 'There are no officers in this poll'
     expect(page).to have_content officer.name
     expect(page).to have_content officer.email
   end
@@ -56,7 +56,7 @@ feature 'Admin officer assignments in poll' do
 
     visit by_officer_admin_poll_officer_assignments_path(poll, officer_id: officer.id)
 
-    expect(page).to_not have_content 'This user has no officing shifts in this poll'
+    expect(page).not_to have_content 'This user has no officing shifts in this poll'
     within("#poll_officer_assignment_#{officer_assignment.id}") do
       expect(page).to have_content booth.name
       click_link 'Remove'
@@ -75,9 +75,9 @@ feature 'Admin officer assignments in poll' do
                                 officer: officer,
                                 date: poll.starts_at)
     final_officer_assignment = create(:poll_officer_assignment, :final,
-                                       booth_assignment: booth_assignment,
-                                       officer: officer,
-                                       date: poll.ends_at + 1.day)
+                                      booth_assignment: booth_assignment,
+                                      officer: officer,
+                                      date: poll.ends_at + 1.day)
     recount = create(:poll_recount,
                      booth_assignment: booth_assignment,
                      officer_assignment: officer_assignment,

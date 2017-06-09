@@ -11,7 +11,7 @@ class Activity < ActiveRecord::Base
   scope :on_users, -> { where(actionable_type: 'User') }
   scope :on_comments, -> { where(actionable_type: 'Comment') }
   scope :on_budget_investments, -> { where(actionable_type: 'Budget::Investment') }
-  scope :for_render, -> { includes(user: [:moderator, :administrator]).includes(:actionable) }
+  scope :for_render, -> { includes(user: %i[moderator administrator]).includes(:actionable) }
 
   def self.log(user, action, actionable)
     create(user: user, action: action.to_s, actionable: actionable)

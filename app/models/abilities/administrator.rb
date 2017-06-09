@@ -34,32 +34,32 @@ module Abilities
 
       can :comment_as_administrator, [Debate, Comment, Proposal, Poll::Question, Budget::Investment, Legislation::Question, Legislation::Annotation]
 
-      can [:search, :create, :index, :destroy], ::Administrator
-      can [:search, :create, :index, :destroy], ::Moderator
-      can [:search, :create, :index, :summary], ::Valuator
-      can [:search, :create, :index, :destroy], ::Manager
+      can %i[search create index destroy], ::Administrator
+      can %i[search create index destroy], ::Moderator
+      can %i[search create index summary], ::Valuator
+      can %i[search create index destroy], ::Manager
 
       can :manage, Annotation
 
-      can [:read, :update, :valuate, :destroy, :summary], SpendingProposal
+      can %i[read update valuate destroy summary], SpendingProposal
 
-      can [:index, :read, :new, :create, :update, :destroy], Budget
-      can [:read, :create, :update, :destroy], Budget::Group
-      can [:read, :create, :update, :destroy], Budget::Heading
-      can [:hide, :update, :toggle_selection], Budget::Investment
+      can %i[index read new create update destroy], Budget
+      can %i[read create update destroy], Budget::Group
+      can %i[read create update destroy], Budget::Heading
+      can %i[hide update toggle_selection], Budget::Investment
       can :valuate, Budget::Investment
       can :create, Budget::ValuatorAssignment
 
-      can [:search, :edit, :update, :create, :index, :destroy], Banner
+      can %i[search edit update create index destroy], Banner
 
-      can [:index, :create, :edit, :update, :destroy], Geozone
+      can %i[index create edit update destroy], Geozone
 
-      can [:read, :create, :update, :destroy, :add_question, :remove_question, :search_booths, :search_questions, :search_officers], Poll
-      can [:read, :create, :update, :destroy], Poll::Booth
-      can [:search, :create, :index, :destroy], ::Poll::Officer
-      can [:create, :destroy], ::Poll::BoothAssignment
-      can [:create, :destroy], ::Poll::OfficerAssignment
-      can [:read, :create, :update], Poll::Question
+      can %i[read create update destroy add_question remove_question search_booths search_questions search_officers], Poll
+      can %i[read create update destroy], Poll::Booth
+      can %i[search create index destroy], ::Poll::Officer
+      can %i[create destroy], ::Poll::BoothAssignment
+      can %i[create destroy], ::Poll::OfficerAssignment
+      can %i[read create update], Poll::Question
       can :destroy, Poll::Question # , comments_count: 0, votes_up: 0
 
       can :manage, SiteCustomization::Page
@@ -70,7 +70,6 @@ module Abilities
       can [:manage], ::Legislation::DraftVersion
       can [:manage], ::Legislation::Question
       cannot :comment_as_moderator, [::Legislation::Question, Legislation::Annotation]
-
     end
   end
 end

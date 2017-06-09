@@ -1,7 +1,6 @@
 class Management::UserInvitesController < Management::BaseController
 
-  def new
-  end
+  def new; end
 
   def create
     @emails = params[:emails].split(",").map(&:strip)

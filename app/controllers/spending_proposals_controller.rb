@@ -1,14 +1,14 @@
 class SpendingProposalsController < ApplicationController
   include FeatureFlags
 
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: %i[index show]
   before_action -> { flash.now[:notice] = flash[:notice].html_safe if flash[:html_safe] && flash[:notice] }
 
   load_and_authorize_resource
 
   feature_flag :spending_proposals
 
-  invisible_captcha only: [:create, :update], honeypot: :subtitle
+  invisible_captcha only: %i[create update], honeypot: :subtitle
 
   respond_to :html, :js
 

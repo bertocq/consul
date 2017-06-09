@@ -1,7 +1,7 @@
 class Management::SpendingProposalsController < Management::BaseController
 
   before_action :only_verified_users, except: :print
-  before_action :set_spending_proposal, only: [:vote, :show]
+  before_action :set_spending_proposal, only: %i[vote show]
 
   def index
     @spending_proposals = apply_filters_and_search(SpendingProposal).order(cached_votes_up: :desc).page(params[:page]).for_render

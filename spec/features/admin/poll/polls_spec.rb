@@ -36,7 +36,7 @@ feature 'Admin polls' do
         expect(page).to have_content poll.name
       end
     end
-    expect(page).to_not have_content "There are no polls"
+    expect(page).not_to have_content "There are no polls"
   end
 
   scenario 'Show' do
@@ -121,7 +121,7 @@ feature 'Admin polls' do
             expect(page).to have_content ba.booth.location
           end
         end
-        expect(page).to_not have_content "There are no booths assigned to this poll."
+        expect(page).not_to have_content "There are no booths assigned to this poll."
       end
     end
   end
@@ -159,7 +159,7 @@ feature 'Admin polls' do
             expect(page).to have_content officer.email
           end
         end
-        expect(page).to_not have_content "There are no officers assigned to this poll"
+        expect(page).not_to have_content "There are no officers assigned to this poll"
       end
     end
   end
@@ -177,8 +177,8 @@ feature 'Admin polls' do
 
         expect(page).to have_content "Questions (1)"
         expect(page).to have_content question.title
-        expect(page).to_not have_content other_question.title
-        expect(page).to_not have_content "There are no questions assigned to this poll"
+        expect(page).not_to have_content other_question.title
+        expect(page).not_to have_content "There are no questions assigned to this poll"
       end
 
       scenario 'Add question to poll', :js do
@@ -202,7 +202,7 @@ feature 'Admin polls' do
         visit admin_poll_path(poll)
 
         expect(page).to have_content 'Questions (1)'
-        expect(page).to_not have_content 'There are no questions assigned to this poll'
+        expect(page).not_to have_content 'There are no questions assigned to this poll'
         expect(page).to have_content question.title
       end
 
@@ -213,7 +213,7 @@ feature 'Admin polls' do
         visit admin_poll_path(poll)
 
         expect(page).to have_content 'Questions (1)'
-        expect(page).to_not have_content 'There are no questions assigned to this poll'
+        expect(page).not_to have_content 'There are no questions assigned to this poll'
         expect(page).to have_content question.title
 
         within("#poll_question_#{question.id}") do
@@ -226,7 +226,7 @@ feature 'Admin polls' do
 
         expect(page).to have_content 'Questions (0)'
         expect(page).to have_content 'There are no questions assigned to this poll'
-        expect(page).to_not have_content question.title
+        expect(page).not_to have_content question.title
       end
 
     end
@@ -248,18 +248,24 @@ feature 'Admin polls' do
         booth_assignment_recounted = create(:poll_booth_assignment, poll: poll)
         booth_assignment_final_recounted = create(:poll_booth_assignment, poll: poll)
 
-        3.times { |i| create(:poll_recount,
-                         booth_assignment: booth_assignment,
-                         date: poll.starts_at + i.days,
-                         count: 33) }
+        3.times do |i|
+          create(:poll_recount,
+                 booth_assignment: booth_assignment,
+                 date: poll.starts_at + i.days,
+                 count: 33)
+        end
 
-        3.times { |i| create(:poll_final_recount,
-                         booth_assignment: booth_assignment,
-                         date: poll.starts_at + i.days,
-                         count: 21) }
+        3.times do |i|
+          create(:poll_final_recount,
+                 booth_assignment: booth_assignment,
+                 date: poll.starts_at + i.days,
+                 count: 21)
+        end
 
-        2.times { create(:poll_voter,
-                  booth_assignment: booth_assignment_final_recounted) }
+        2.times do
+          create(:poll_voter,
+                 booth_assignment: booth_assignment_final_recounted)
+        end
 
         create(:poll_recount,
                booth_assignment: booth_assignment_recounted,
@@ -320,15 +326,15 @@ feature 'Admin polls' do
 
         [booth_assignment_1, booth_assignment_2, booth_assignment_3].each do |ba|
           create(:poll_partial_result,
-                  booth_assignment: ba,
-                  question: question_1,
-                  answer: 'Yes',
-                  amount: 11)
+                 booth_assignment: ba,
+                 question: question_1,
+                 answer: 'Yes',
+                 amount: 11)
           create(:poll_partial_result,
-                  booth_assignment: ba,
-                  question: question_2,
-                  answer: 'Tomorrow',
-                  amount: 5)
+                 booth_assignment: ba,
+                 question: question_2,
+                 answer: 'Tomorrow',
+                 amount: 5)
         end
         create(:poll_white_result,
                booth_assignment: booth_assignment_1,
@@ -353,7 +359,7 @@ feature 'Admin polls' do
         question_2.valid_answers.each_with_index do |answer, i|
           within("#question_#{question_2.id}_#{i}_result") do
             expect(page).to have_content(answer)
-            expect(page).to have_content([0,15][i])
+            expect(page).to have_content([0, 15][i])
           end
         end
 

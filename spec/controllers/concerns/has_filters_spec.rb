@@ -6,7 +6,7 @@ describe 'HasFilters' do
 
   controller(FakeController) do
     include HasFilters
-    has_filters ['all', 'pending', 'reviewed'], only: :index
+    has_filters %w[all pending reviewed], only: :index
 
     def index
       render text: "#{@current_filter} (#{@valid_filters.join(' ')})"

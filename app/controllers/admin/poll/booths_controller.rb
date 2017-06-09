@@ -5,11 +5,9 @@ class Admin::Poll::BoothsController < Admin::BaseController
     @booths = @booths.order(name: :asc).page(params[:page])
   end
 
-  def show
-  end
+  def show; end
 
-  def new
-  end
+  def new; end
 
   def create
     if @booth.save
@@ -19,8 +17,7 @@ class Admin::Poll::BoothsController < Admin::BaseController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @booth.update(booth_params)

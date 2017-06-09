@@ -1,7 +1,7 @@
 class Admin::UsersController < Admin::BaseController
   has_filters %w{without_confirmed_hide all with_confirmed_hide}, only: :index
 
-  before_action :load_user, only: [:confirm_hide, :restore]
+  before_action :load_user, only: %i[confirm_hide restore]
 
   def index
     @users = User.only_hidden.send(@current_filter).page(params[:page])

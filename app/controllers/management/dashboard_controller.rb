@@ -1,6 +1,5 @@
 class Management::DashboardController < Management::BaseController
 
-  def index
-  end
+  def index; end
 
 end

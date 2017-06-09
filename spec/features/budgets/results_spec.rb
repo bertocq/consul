@@ -21,7 +21,7 @@ feature 'Results' do
       expect(page).to have_content investment1.title
       expect(page).to have_content investment2.title
       expect(page).to have_content investment3.title
-      expect(page).to_not have_content investment4.title
+      expect(page).not_to have_content investment4.title
 
       expect(investment1.title).to appear_before(investment2.title)
       expect(investment2.title).to appear_before(investment3.title)

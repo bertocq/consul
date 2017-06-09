@@ -3,12 +3,12 @@ class Management::ProposalsController < Management::BaseController
   include CommentableActions
 
   before_action :only_verified_users, except: :print
-  before_action :set_proposal, only: [:vote, :show]
+  before_action :set_proposal, only: %i[vote show]
   before_action :parse_search_terms, only: :index
-  before_action :load_categories, only: [:new, :edit]
+  before_action :load_categories, only: %i[new edit]
   before_action :load_geozones, only: [:edit]
 
-  has_orders %w{confidence_score hot_score created_at most_commented random}, only: [:index, :print]
+  has_orders %w{confidence_score hot_score created_at most_commented random}, only: %i[index print]
   has_orders %w{most_voted newest}, only: :show
 
   def show

@@ -3,8 +3,7 @@ class AccountController < ApplicationController
   before_action :set_account
   load_and_authorize_resource class: "User"
 
-  def show
-  end
+  def show; end
 
   def update
     if @account.update(account_params)
@@ -23,7 +22,7 @@ class AccountController < ApplicationController
 
     def account_params
       if @account.organization?
-        params.require(:account).permit(:phone_number, :email_on_comment, :email_on_comment_reply, :newsletter, organization_attributes: [:name, :responsible_name])
+        params.require(:account).permit(:phone_number, :email_on_comment, :email_on_comment_reply, :newsletter, organization_attributes: %i[name responsible_name])
       else
         params.require(:account).permit(:username, :public_activity, :email_on_comment, :email_on_comment_reply, :email_on_direct_message, :email_digest, :newsletter, :official_position_badge)
       end

@@ -6,8 +6,8 @@ describe 'HasOrders' do
 
   controller(FakeController) do
     include HasOrders
-    has_orders ['created_at', 'votes_count', 'flags_count', 'relevance'], only: :index
-    has_orders -> (c) { ['votes_count', 'flags_count'] }, only: :new
+    has_orders %w[created_at votes_count flags_count relevance], only: :index
+    has_orders ->(_c) { ['votes_count', 'flags_count'] }, only: :new
 
     def index
       render text: "#{@current_order} (#{@valid_orders.join(' ')})"

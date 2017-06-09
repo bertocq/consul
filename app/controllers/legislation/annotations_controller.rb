@@ -1,7 +1,7 @@
 class Legislation::AnnotationsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
-  before_action :authenticate_user!, only: [:create, :new_comment]
+  before_action :authenticate_user!, only: %i[create new_comment]
   before_action :convert_ranges_parameters, only: [:create]
 
   load_and_authorize_resource :process
@@ -30,12 +30,13 @@ class Legislation::AnnotationsController < ApplicationController
 
   def create
     if !@process.open_phase?(:allegations) || @draft_version.final_version?
-      render json: {}, status: :not_found and return
+      render(json: {}, status: :not_found) && return
     end
 
     existing_annotation = @draft_version.annotations.where(
       range_start: annotation_params[:ranges].first[:start], range_start_offset: annotation_params[:ranges].first[:startOffset].to_i,
-      range_end: annotation_params[:ranges].first[:end], range_end_offset: annotation_params[:ranges].first[:endOffset].to_i).first
+      range_end: annotation_params[:ranges].first[:end], range_end_offset: annotation_params[:ranges].first[:endOffset].to_i
+    ).first
 
     if @annotation = existing_annotation
       if comment = @annotation.comments.create(body: annotation_params[:text], user: current_user)
@@ -76,9 +77,7 @@ class Legislation::AnnotationsController < ApplicationController
     @draft_version = Legislation::DraftVersion.find(params[:draft_version_id])
     @annotation = @draft_version.annotations.find(params[:annotation_id])
     @comment = @annotation.comments.new(body: params[:comment][:body], user: current_user)
-    if @comment.save
-      @comment = @annotation.comments.new
-    end
+    @comment = @annotation.comments.new if @comment.save
 
     respond_to do |format|
       format.js { render :new_comment }
@@ -90,7 +89,7 @@ class Legislation::AnnotationsController < ApplicationController
     def annotation_params
       params
         .require(:legislation_annotation)
-        .permit(:quote, :text, ranges: [:start, :startOffset, :end, :endOffset])
+        .permit(:quote, :text, ranges: %i[start startOffset end endOffset])
     end
 
     def track_event

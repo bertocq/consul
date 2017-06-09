@@ -12,8 +12,8 @@ class Poll
 
     def update_logs
       if self.count_changed? && self.count_was.present?
-        self.count_log += ":#{self.count_was.to_s}"
-        self.officer_assignment_id_log += ":#{self.officer_assignment_id_was.to_s}"
+        self.count_log += ":#{self.count_was}"
+        self.officer_assignment_id_log += ":#{self.officer_assignment_id_was}"
       end
     end
   end

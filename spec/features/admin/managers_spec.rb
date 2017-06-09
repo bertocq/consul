@@ -12,7 +12,7 @@ feature 'Admin managers' do
   scenario 'Index' do
     expect(page).to have_content @manager.name
     expect(page).to have_content @manager.email
-    expect(page).to_not have_content @user.name
+    expect(page).not_to have_content @user.name
   end
 
   scenario 'Create Manager', :js do
@@ -30,7 +30,7 @@ feature 'Admin managers' do
     click_link 'Delete'
 
     within("#managers") do
-      expect(page).to_not have_content @manager.name
+      expect(page).not_to have_content @manager.name
     end
   end
 

@@ -2,9 +2,9 @@ class Valuation::BudgetInvestmentsController < Valuation::BaseController
   include FeatureFlags
   feature_flag :budgets
 
-  before_action :restrict_access_to_assigned_items, only: [:show, :edit, :valuate]
+  before_action :restrict_access_to_assigned_items, only: %i[show edit valuate]
   before_action :load_budget
-  before_action :load_investment, only: [:show, :edit, :valuate]
+  before_action :load_investment, only: %i[show edit valuate]
 
   has_filters %w{valuating valuation_finished}, only: :index
 
@@ -22,9 +22,7 @@ class Valuation::BudgetInvestmentsController < Valuation::BaseController
   def valuate
     if valid_price_params? && @investment.update(valuation_params)
 
-      if @investment.unfeasible_email_pending?
-        @investment.send_unfeasible_email
-      end
+      @investment.send_unfeasible_email if @investment.unfeasible_email_pending?
 
       Activity.log(current_user, :valuate, @investment)
       redirect_to valuation_budget_budget_investment_path(@budget, @investment), notice: t('valuation.budget_investments.notice.valuate')
@@ -48,14 +46,11 @@ class Valuation::BudgetInvestmentsController < Valuation::BaseController
 
       [ { name: t('valuation.budget_investments.index.headings_filter_all'),
           id: nil,
-          pending_count: investments.size
-        }
-      ] + Budget::Heading.where(id: investments.map(&:heading_id).uniq).order(name: :asc).collect do |h|
-        { name: h.name,
-          id: h.id,
-          pending_count: investments.count{|x| x.heading_id == h.id}
-        }
-      end
+          pending_count: investments.size}] + Budget::Heading.where(id: investments.map(&:heading_id).uniq).order(name: :asc).collect do |h|
+                                                { name: h.name,
+                                                  id: h.id,
+                                                  pending_count: investments.count{|x| x.heading_id == h.id}}
+                                              end
     end
 
     def params_for_current_valuator
@@ -67,7 +62,7 @@ class Valuation::BudgetInvestmentsController < Valuation::BaseController
     end
 
     def restrict_access_to_assigned_items
-      raise ActionController::RoutingError.new('Not Found') unless current_user.administrator? || Budget::ValuatorAssignment.exists?(investment_id: params[:id], valuator_id: current_user.valuator.id)
+      raise ActionController::RoutingError, 'Not Found' unless current_user.administrator? || Budget::ValuatorAssignment.exists?(investment_id: params[:id], valuator_id: current_user.valuator.id)
     end
 
     def valid_price_params?

@@ -33,7 +33,7 @@ feature 'Admin booths assignments' do
       click_link 'Booths (1)'
     end
 
-    expect(page).to_not have_content 'There are no booths assigned to this poll.'
+    expect(page).not_to have_content 'There are no booths assigned to this poll.'
     expect(page).to have_content booth.name
   end
 
@@ -47,7 +47,7 @@ feature 'Admin booths assignments' do
       click_link 'Booths (1)'
     end
 
-    expect(page).to_not have_content 'There are no booths assigned to this poll.'
+    expect(page).not_to have_content 'There are no booths assigned to this poll.'
     expect(page).to have_content booth.name
 
     within("#poll_booth_assignment_#{assignment.id}") do
@@ -62,7 +62,7 @@ feature 'Admin booths assignments' do
     end
 
     expect(page).to have_content 'There are no booths assigned to this poll.'
-    expect(page).to_not have_content booth.name
+    expect(page).not_to have_content booth.name
   end
 
   feature 'Show' do
@@ -85,7 +85,7 @@ feature 'Admin booths assignments' do
       click_link 'Officers'
       within('#officers_list') do
         expect(page).to have_content officer.name
-        expect(page).to_not have_content officer_2.name
+        expect(page).not_to have_content officer_2.name
       end
     end
 
@@ -108,10 +108,10 @@ feature 'Admin booths assignments' do
                          date: officer_assignment_2.date,
                          count: 78)
       final_recount = create(:poll_final_recount,
-                         booth_assignment: booth_assignment,
-                         officer_assignment: final_officer_assignment,
-                         date: final_officer_assignment.date,
-                         count: 5678)
+                             booth_assignment: booth_assignment,
+                             officer_assignment: final_officer_assignment,
+                             date: final_officer_assignment.date,
+                             count: 5678)
 
       booth_assignment_2 = create(:poll_booth_assignment, poll: poll)
       other_recount = create(:poll_recount, booth_assignment: booth_assignment_2, count: 100)
@@ -123,7 +123,7 @@ feature 'Admin booths assignments' do
 
       click_link 'Recounts'
       within('#recounts_list') do
-        expect(page).to_not have_content other_recount.count
+        expect(page).not_to have_content other_recount.count
 
         within("#recounting_#{recount_1.date.strftime('%Y%m%d')}") do
           expect(page).to have_content recount_1.count
@@ -148,10 +148,10 @@ feature 'Admin booths assignments' do
       officer_assignment = create(:poll_officer_assignment, booth_assignment: booth_assignment, date: today)
 
       recount = create(:poll_recount,
-                         booth_assignment: booth_assignment,
-                         officer_assignment: officer_assignment,
-                         date: officer_assignment.date,
-                         count: 1)
+                       booth_assignment: booth_assignment,
+                       officer_assignment: officer_assignment,
+                       date: officer_assignment.date,
+                       count: 1)
 
       visit admin_poll_booth_assignment_path(poll, booth_assignment)
       click_link 'Recounts'
@@ -170,7 +170,7 @@ feature 'Admin booths assignments' do
       click_link 'Recounts'
 
       within('#recounts_list') do
-        expect(page).to_not have_css('.count-error')
+        expect(page).not_to have_css('.count-error')
         within("#recounting_#{recount.date.strftime('%Y%m%d')}") do
           expect(page).to have_content(recount.count)
         end

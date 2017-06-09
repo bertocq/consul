@@ -20,7 +20,7 @@ feature 'Officing Recount' do
       click_link 'Store recount'
     end
 
-    expect(page).to_not have_content(not_allowed_poll.name)
+    expect(page).not_to have_content(not_allowed_poll.name)
     expect(page).to have_content(@poll.name)
 
     visit new_officing_poll_recount_path(not_allowed_poll)
@@ -36,7 +36,7 @@ feature 'Officing Recount' do
 
     click_link @poll.name
 
-    expect(page).to_not have_content('Your recounts')
+    expect(page).not_to have_content('Your recounts')
 
     booth_name = @officer_assignment.booth_assignment.booth.name
     date = I18n.l(@officer_assignment.date.to_date, format: :long)
@@ -55,10 +55,10 @@ feature 'Officing Recount' do
 
   scenario 'Edit recount' do
     recount = create(:poll_recount,
-                    officer_assignment: @officer_assignment,
-                    booth_assignment: @officer_assignment.booth_assignment,
-                    date: @officer_assignment.date,
-                    count: 100)
+                     officer_assignment: @officer_assignment,
+                     booth_assignment: @officer_assignment.booth_assignment,
+                     date: @officer_assignment.date,
+                     count: 100)
 
     booth_name = @officer_assignment.booth_assignment.booth.name
     date = I18n.l(@officer_assignment.date.to_date, format: :long)
@@ -82,6 +82,6 @@ feature 'Officing Recount' do
       expect(page).to have_content(booth_name)
       expect(page).to have_content('42')
     end
-    expect(page).to_not have_content('100')
+    expect(page).not_to have_content('100')
   end
 end

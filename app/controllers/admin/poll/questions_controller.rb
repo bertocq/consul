@@ -28,11 +28,9 @@ class Admin::Poll::QuestionsController < Admin::BaseController
     end
   end
 
-  def show
-  end
+  def show; end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @question.update(question_params)
@@ -43,11 +41,11 @@ class Admin::Poll::QuestionsController < Admin::BaseController
   end
 
   def destroy
-    if @question.destroy
-      notice = "Question destroyed succesfully"
-    else
-      notice = t("flash.actions.destroy.error")
-    end
+    notice = if @question.destroy
+               "Question destroyed succesfully"
+             else
+               t("flash.actions.destroy.error")
+             end
     redirect_to admin_questions_path, notice: notice
   end
 

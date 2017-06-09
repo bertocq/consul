@@ -2,7 +2,7 @@ module Search
   extend ActiveSupport::Concern
 
   included do
-    before_action :parse_search_terms, only: [:index, :suggest]
+    before_action :parse_search_terms, only: %i[index suggest]
     before_action :parse_advanced_search_terms, only: :index
     before_action :set_search_order, only: :index
   end
@@ -36,12 +36,20 @@ module Search
     when '4'
       1.year.ago
     else
-      Date.parse(params[:advanced_search][:date_min]) rescue 100.years.ago
+      begin
+        Date.parse(params[:advanced_search][:date_min])
+      rescue
+        100.years.ago
+      end
     end
   end
 
   def search_finish_date
-    (params[:advanced_search][:date_max].to_date rescue Date.today) || Date.today
+    (begin
+       params[:advanced_search][:date_max].to_date
+     rescue
+       Date.today
+     end) || Date.today
   end
 
   def search_date_range

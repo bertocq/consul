@@ -33,7 +33,7 @@ feature 'Admin booths' do
         expect(page).to have_content booth.location
       end
     end
-    expect(page).to_not have_content "There are no booths"
+    expect(page).not_to have_content "There are no booths"
   end
 
   scenario 'Show' do

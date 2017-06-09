@@ -17,7 +17,7 @@ module AdminHelper
   end
 
   def menu_moderated_content?
-    ["proposals", "debates", "comments", "users"].include? controller_name
+    %w[proposals debates comments users].include? controller_name
   end
 
   def menu_budget?
@@ -25,11 +25,11 @@ module AdminHelper
   end
 
   def menu_polls?
-    ["polls", "questions", "officers", "booths", "officer_assignments", "booth_assignments", "recounts", "results"].include? controller_name
+    %w[polls questions officers booths officer_assignments booth_assignments recounts results].include? controller_name
   end
 
   def menu_profiles?
-    ["administrators", "organizations", "officials", "moderators", "valuators", "managers"].include? controller_name
+    %w[administrators organizations officials moderators valuators managers].include? controller_name
   end
 
   def menu_banners?

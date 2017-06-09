@@ -7,12 +7,12 @@ require 'capistrano/deploy'
 require "capistrano/bundler"
 require 'capistrano/rails/assets'
 require 'capistrano/rails/migrations'
-#require 'capistrano/passenger'
+# require 'capistrano/passenger'
 require 'capistrano/delayed_job'
 require 'whenever/capistrano'
 require 'rvm1/capistrano3'
 
-#SCM: Git
+# SCM: Git
 require "capistrano/scm/git"
 install_plugin Capistrano::SCM::Git
 

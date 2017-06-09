@@ -9,12 +9,12 @@ describe Poll::PartialResult do
       expect(build(:poll_partial_result, question: q, answer: 'Two')).to be_valid
       expect(build(:poll_partial_result, question: q, answer: 'Three')).to be_valid
 
-      expect(build(:poll_partial_result, question: q, answer: 'Four')).to_not be_valid
+      expect(build(:poll_partial_result, question: q, answer: 'Four')).not_to be_valid
     end
   end
 
   describe "logging changes" do
-    it "should update amount_log if amount changes" do
+    it "updates amount_log if amount changes" do
       partial_result = create(:poll_partial_result, amount: 33)
 
       expect(partial_result.amount_log).to eq("")
@@ -29,7 +29,7 @@ describe Poll::PartialResult do
       expect(partial_result.amount_log).to eq(":33:32")
     end
 
-    it "should update officer_assignment_id_log if amount changes" do
+    it "updates officer_assignment_id_log if amount changes" do
       partial_result = create(:poll_partial_result, amount: 33)
 
       expect(partial_result.amount_log).to eq("")
@@ -51,7 +51,7 @@ describe Poll::PartialResult do
       expect(partial_result.officer_assignment_id_log).to eq(":10:20")
     end
 
-    it "should update author_id if amount changes" do
+    it "updates author_id if amount changes" do
       partial_result = create(:poll_partial_result, amount: 33)
 
       expect(partial_result.amount_log).to eq("")

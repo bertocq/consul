@@ -8,8 +8,7 @@ class BudgetsController < ApplicationController
 
   respond_to :html, :js
 
-  def show
-  end
+  def show; end
 
   def index
     @budgets = @budgets.order(:created_at)

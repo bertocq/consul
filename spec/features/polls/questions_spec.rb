@@ -21,7 +21,7 @@ feature 'Poll Questions' do
     expect(page).to have_link(question_with_author.author.name)
 
     visit question_path(question_with_author_visible_name)
-    expect(page).to_not have_link(question_with_author_visible_name.author.name)
+    expect(page).not_to have_link(question_with_author_visible_name.author.name)
     expect(page).to have_content(question_with_author_visible_name.author_visible_name)
   end
 
@@ -98,7 +98,7 @@ feature 'Poll Questions' do
       click_link 'Answer this question'
       click_link 'Han Solo'
 
-      expect(page).to_not have_link('Han Solo')
+      expect(page).not_to have_link('Han Solo')
 
       voter = poll.voters.first
       expect(voter.document_number).to eq(user.document_number)

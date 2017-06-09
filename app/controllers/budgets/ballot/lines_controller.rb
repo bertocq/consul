@@ -2,7 +2,7 @@ module Budgets
   module Ballot
     class LinesController < ApplicationController
       before_action :authenticate_user!
-      #before_action :ensure_final_voting_allowed
+      # before_action :ensure_final_voting_allowed
       before_action :load_budget
       before_action :load_ballot
       before_action :load_tag_cloud

@@ -92,7 +92,7 @@ feature 'Emails' do
       email = open_last_email
       expect(email).to have_subject('Someone has responded to your comment')
       expect(email).to deliver_to(user)
-      expect(email).to_not have_body_text(debate_path(Comment.first.commentable))
+      expect(email).not_to have_body_text(debate_path(Comment.first.commentable))
       expect(email).to have_body_text(comment_path(Comment.last))
       expect(email).to have_body_text(I18n.t("mailers.config.manage_email_subscriptions"))
       expect(email).to have_body_text(account_path)
@@ -230,7 +230,7 @@ feature 'Emails' do
       expect(email).to have_body_text(/#{proposal_path(proposal2, anchor: 'social-share')}/)
       expect(email).to have_body_text(proposal2.author.name)
 
-      expect(email).to_not have_body_text(proposal3.title)
+      expect(email).not_to have_body_text(proposal3.title)
       expect(email).to have_body_text(/#{account_path}/)
 
       notification1.reload
@@ -335,9 +335,9 @@ feature 'Emails' do
       reset_mailer
       budget.email_selected
 
-      expect(find_email investment1.author.email).to be
-      expect(find_email investment2.author.email).to be
-      expect(find_email investment3.author.email).to_not be
+      expect(find_email(investment1.author.email)).to be
+      expect(find_email(investment2.author.email)).to be
+      expect(find_email(investment3.author.email)).not_to be
 
       email = open_last_email
       investment = investment2
@@ -358,9 +358,9 @@ feature 'Emails' do
       reset_mailer
       budget.email_unselected
 
-      expect(find_email investment1.author.email).to be
-      expect(find_email investment2.author.email).to be
-      expect(find_email investment3.author.email).to_not be
+      expect(find_email(investment1.author.email)).to be
+      expect(find_email(investment2.author.email)).to be
+      expect(find_email(investment3.author.email)).not_to be
 
       email = open_last_email
       investment = investment2

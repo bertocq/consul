@@ -3,7 +3,7 @@ require 'rails_helper'
 describe :officer do
 
   describe "#voting_days_assigned_polls" do
-    it "should return all polls with this officer assigned during voting days" do
+    it "returns all polls with this officer assigned during voting days" do
       officer = create(:poll_officer)
 
       poll_1 = create(:poll)
@@ -25,7 +25,7 @@ describe :officer do
       expect(assigned_polls.include?(poll_3)).to eq(false)
     end
 
-    it "should not return polls with this officer assigned for final recount/results" do
+    it "does not return polls with this officer assigned for final recount/results" do
       officer = create(:poll_officer)
 
       poll_1 = create(:poll)
@@ -43,12 +43,12 @@ describe :officer do
       expect(assigned_polls.include?(poll_2)).to eq(false)
     end
 
-    it "should return polls ordered by end date (desc)" do
+    it "returns polls ordered by end date (desc)" do
       officer = create(:poll_officer)
 
       poll_1 = create(:poll, ends_at: 1.day.ago)
       poll_2 = create(:poll, ends_at: 10.days.from_now)
-      poll_3 = create(:poll, ends_at: 10.day.ago)
+      poll_3 = create(:poll, ends_at: 10.days.ago)
 
       [poll_1, poll_2, poll_3].each do |p|
         create(:poll_officer_assignment, officer: officer, booth_assignment: create(:poll_booth_assignment, poll: p))
@@ -63,7 +63,7 @@ describe :officer do
   end
 
   describe "#final_days_assigned_polls" do
-    it "should return all polls with this officer assigned for final recount/results" do
+    it "returns all polls with this officer assigned for final recount/results" do
       officer = create(:poll_officer)
 
       poll_1 = create(:poll)
@@ -85,7 +85,7 @@ describe :officer do
       expect(assigned_polls.include?(poll_3)).to eq(false)
     end
 
-    it "should not return polls with this officer assigned for voting days" do
+    it "does not return polls with this officer assigned for voting days" do
       officer = create(:poll_officer)
 
       poll_1 = create(:poll)
@@ -103,12 +103,12 @@ describe :officer do
       expect(assigned_polls.include?(poll_2)).to eq(true)
     end
 
-    it "should return polls ordered by end date (desc)" do
+    it "returns polls ordered by end date (desc)" do
       officer = create(:poll_officer)
 
       poll_1 = create(:poll, ends_at: 1.day.ago)
       poll_2 = create(:poll, ends_at: 10.days.from_now)
-      poll_3 = create(:poll, ends_at: 10.day.ago)
+      poll_3 = create(:poll, ends_at: 10.days.ago)
 
       [poll_1, poll_2, poll_3].each do |p|
         create(:poll_officer_assignment, officer: officer, booth_assignment: create(:poll_booth_assignment, poll: p), final: true)

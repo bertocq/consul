@@ -35,7 +35,7 @@ class Signature < ActiveRecord::Base
 
   def assign_signature_to_vote
     vote = Vote.where(votable: signable, voter: user).first
-    vote.update(signature: self) if vote
+    vote&.update(signature: self)
   end
 
   def user_exists?

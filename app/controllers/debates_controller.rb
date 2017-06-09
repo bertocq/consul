@@ -4,11 +4,11 @@ class DebatesController < ApplicationController
   include FlagActions
 
   before_action :parse_tag_filter, only: :index
-  before_action :authenticate_user!, except: [:index, :show, :map]
+  before_action :authenticate_user!, except: %i[index show map]
 
   feature_flag :debates
 
-  invisible_captcha only: [:create, :update], honeypot: :subtitle
+  invisible_captcha only: %i[create update], honeypot: :subtitle
 
   has_orders %w{hot_score confidence_score created_at relevance}, only: :index
   has_orders %w{most_voted newest oldest}, only: :show

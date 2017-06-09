@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe :final_recount do
 
-  it "should update count_log if count changes" do
+  it "updates count_log if count changes" do
     final_recount = create(:poll_final_recount, count: 33)
 
     expect(final_recount.count_log).to eq("")
@@ -17,7 +17,7 @@ describe :final_recount do
     expect(final_recount.count_log).to eq(":33:32")
   end
 
-  it "should update officer_assignment_id_log if count changes" do
+  it "updates officer_assignment_id_log if count changes" do
     final_recount = create(:poll_final_recount, count: 33)
 
     expect(final_recount.count_log).to eq("")

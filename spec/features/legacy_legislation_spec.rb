@@ -14,6 +14,7 @@ feature 'Legacy Legislation' do
   context 'Annotations', :js do
 
     let(:user) { create(:user) }
+
     background { login_as user }
 
     scenario 'Create' do
@@ -50,7 +51,7 @@ feature 'Legacy Legislation' do
       fill_in 'annotator-field-0', with: 'edited annotation'
       page.find(:css, ".annotator-controls a[href='#save']").click
 
-      expect(page).to_not have_css('span', text: 'my annotation')
+      expect(page).not_to have_css('span', text: 'my annotation')
 
       page.find(:css, ".annotator-hl").click
       expect(page).to have_content "edited annotation"
@@ -72,7 +73,7 @@ feature 'Legacy Legislation' do
       page.find(:css, ".annotator-hl").click
       page.find(:css, ".annotator-delete").click
 
-      expect(page).to_not have_css ".annotator-hl"
+      expect(page).not_to have_css ".annotator-hl"
     end
 
     scenario 'Search' do

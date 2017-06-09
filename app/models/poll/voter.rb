@@ -9,7 +9,7 @@ class Poll
     validates :poll_id, presence: true
     validates :user_id, presence: true
 
-    validates :document_number, presence: true, uniqueness: { scope: [:poll_id, :document_type], message: :has_voted }
+    validates :document_number, presence: true, uniqueness: { scope: %i[poll_id document_type], message: :has_voted }
 
     before_validation :set_demographic_info, :set_document_info
 

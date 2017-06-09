@@ -2,7 +2,7 @@ class Valuation::SpendingProposalsController < Valuation::BaseController
   include FeatureFlags
   feature_flag :spending_proposals
 
-  before_action :restrict_access_to_assigned_items, only: [:show, :edit, :valuate]
+  before_action :restrict_access_to_assigned_items, only: %i[show edit valuate]
 
   has_filters %w{valuating valuation_finished}, only: :index
 

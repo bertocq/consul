@@ -4,7 +4,7 @@ class Management::Budgets::InvestmentsController < Management::BaseController
   load_resource :investment, through: :budget, class: 'Budget::Investment'
 
   before_action :only_verified_users, except: :print
-  before_action :load_heading, only: [:index, :show, :print]
+  before_action :load_heading, only: %i[index show print]
 
   def index
     @investments = @investments.apply_filters_and_search(@budget, params).page(params[:page])

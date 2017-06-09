@@ -4,25 +4,25 @@ module Budgets
     include CommentableActions
     include FlagActions
 
-    before_action :authenticate_user!, except: [:index, :show]
+    before_action :authenticate_user!, except: %i[index show]
 
     load_and_authorize_resource :budget
     load_and_authorize_resource :investment, through: :budget, class: "Budget::Investment"
 
     before_action -> { flash.now[:notice] = flash[:notice].html_safe if flash[:html_safe] && flash[:notice] }
-    before_action :load_ballot, only: [:index, :show]
-    before_action :load_heading, only: [:index, :show]
+    before_action :load_ballot, only: %i[index show]
+    before_action :load_heading, only: %i[index show]
     before_action :set_random_seed, only: :index
-    before_action :load_categories, only: [:index, :new, :create]
+    before_action :load_categories, only: %i[index new create]
     before_action :set_default_budget_filter, only: :index
 
     feature_flag :budgets
 
     has_orders %w{most_voted newest oldest}, only: :show
     has_orders ->(c) { c.instance_variable_get(:@budget).investments_orders }, only: :index
-    has_filters %w{not_unfeasible feasible unfeasible unselected selected}, only: [:index, :show]
+    has_filters %w{not_unfeasible feasible unfeasible unselected selected}, only: %i[index show]
 
-    invisible_captcha only: [:create, :update], honeypot: :subtitle, scope: :budget_investment
+    invisible_captcha only: %i[create update], honeypot: :subtitle, scope: :budget_investment
 
     respond_to :html, :js
 
@@ -33,8 +33,7 @@ module Budgets
       @tag_cloud = tag_cloud
     end
 
-    def new
-    end
+    def new; end
 
     def show
       @commentable = @investment
@@ -79,7 +78,11 @@ module Budgets
       def set_random_seed
         if params[:order] == 'random' || params[:order].blank?
           params[:random_seed] ||= rand(99)/100.0
-          seed = Float(params[:random_seed]) rescue 0
+          seed = begin
+                   Float(params[:random_seed])
+                 rescue
+                   0
+                 end
           Budget::Investment.connection.execute("select setseed(#{seed})")
         else
           params[:random_seed] = nil

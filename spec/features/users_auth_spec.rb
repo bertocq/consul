@@ -310,7 +310,7 @@ feature 'Users' do
     login_as(admin.user)
     visit root_path
 
-    expect(page).to_not have_content "Your password is expired"
+    expect(page).not_to have_content "Your password is expired"
   end
 
   scenario 'Sign in, user with password expired' do
@@ -319,7 +319,7 @@ feature 'Users' do
     login_as(user)
     visit root_path
 
-    expect(page).to_not have_content "Your password is expired"
+    expect(page).not_to have_content "Your password is expired"
   end
 
   scenario 'Admin with password expired trying to use same password' do
